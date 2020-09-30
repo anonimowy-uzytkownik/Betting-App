@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "995030271673",
+    "firebase_url": "https://projekty-dyplomowy.firebaseio.com",
+    "project_id": "projekty-dyplomowy",
+    "storage_bucket": "projekty-dyplomowy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995030271673:android:f574999f43f7b34201bd68",
+        "android_client_info": {
+          "package_name": "com.example.praca_dyplomowa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "995030271673-f2n25pfl33agp1n24st104rj4nbc4e9c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2K7XdRO2YmILfdVPc7HwrncVU8ReB-1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "995030271673-f2n25pfl33agp1n24st104rj4nbc4e9c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
