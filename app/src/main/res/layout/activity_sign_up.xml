@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#243665"
+    tools:context=".MainActivity">
+
+
+    <EditText
+        android:id="@+id/login"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/password"
+        android:layout_centerInParent="true"
+        android:background="@drawable/edit_text_border"
+        android:gravity="center"
+        android:hint="e-mail"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/edit_text_border"
+        android:gravity="center"
+
+
+        android:hint="password"
+        android:inputType="text" />
+
+
+    <Button
+        android:id="@+id/sign_up"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/password"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="sign up!" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_signing_up"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sign_up"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:visibility="invisible" />
+
+</RelativeLayout>
