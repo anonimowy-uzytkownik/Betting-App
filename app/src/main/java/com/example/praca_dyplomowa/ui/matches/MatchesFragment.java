@@ -59,13 +59,27 @@ public class MatchesFragment extends Fragment {
         ArrayList<Match> matchList = new ArrayList<>();
         matchList.add(AjaxBarcelona);
         matchList.add(AjaxBarcelona2);
+        matchList.add(AjaxBarcelona2);
+        matchList.add(AjaxBarcelona2);
+        matchList.add(AjaxBarcelona2);
+        matchList.add(AjaxBarcelona2);
 
-        MatchListAdapter adapter = new MatchListAdapter(getActivity(),R.layout.adapter_view_layout,matchList);
+        MatchListAdapter adapter = new MatchListAdapter(getContext(),R.layout.adapter_view_layout,matchList);
         mListView.setAdapter(adapter);
 
-        Log.d("test","onCreate: Started2.");
+//        RelativeLayout relativeLayout = new RelativeLayout(getContext());
+//        TextView textView = new TextView(getContext());
+//        textView.setText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+//        relativeLayout.addView(textView);
 
-        return inflater.inflate(R.layout.fragment_matches, container, false);
+
+        Log.d("test","onCreate: Started2.");
+        Log.d("test",mListView.getContext().toString());
+
+
+
+     //   return inflater.inflate(R.layout.fragment_matches, container, false);  crashuje się gdy returnuje inną wersje iflatera niz ta zdeklarowania u góry
+        return rootView;
 
 
     }
@@ -75,6 +89,7 @@ public class MatchesFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MatchesViewModel.class);
         // TODO: Use the ViewModel
+
 
 
     }

@@ -31,22 +31,23 @@
 
         <TextView
             android:layout_width="50dp"
-            android:layout_height="10dp"
+            android:layout_height="30dp"
             android:layout_marginTop="100dp"
             android:layout_centerHorizontal="true"
             android:id="@+id/textViewResult"/>
         <TextView
             android:layout_width="100dp"
-            android:layout_height="10dp"
+            android:layout_height="30dp"
             android:id="@+id/textViewTeam1Name"
             android:layout_toLeftOf="@+id/textViewResult"
             android:layout_below="@+id/imageViewTeam1"/>
         <TextView
             android:layout_width="100dp"
-            android:layout_height="10dp"
+            android:layout_height="30dp"
             android:id="@+id/textViewTeam2Name"
             android:layout_toRightOf="@+id/textViewResult"
-            android:layout_below="@+id/imageViewTeam2"/>
+            android:layout_below="@+id/imageViewTeam2"
+            />
 
         <Button
             android:layout_width="wrap_content"

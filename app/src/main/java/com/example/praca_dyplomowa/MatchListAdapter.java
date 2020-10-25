@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,10 +46,20 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
         TextView tvTeam1Name = (TextView) convertView.findViewById(R.id.textViewTeam1Name);
         TextView tvTeam2Name = (TextView) convertView.findViewById(R.id.textViewTeam2Name);
         TextView tvResult = (TextView) convertView.findViewById(R.id.textViewResult);
+        Button btnTeam1Odds = (Button) convertView.findViewById(R.id.buttonTeam1);
+        Button btnTeam2Odds = (Button) convertView.findViewById(R.id.buttonTeam2);
+        Button btnDrawOdds = (Button) convertView.findViewById(R.id.buttonTeamDraw);
+
+        ImageView imgTeam1 = (ImageView) convertView.findViewById(R.id.imageViewTeam1);
+        ImageView imgTeam2 = (ImageView) convertView.findViewById(R.id.imageViewTeam2);
+
 
         tvTeam1Name.setText(team1Name);
         tvTeam2Name.setText(team2Name);
         tvResult.setText(result);
+        btnTeam1Odds.setText(win1odds);
+        btnTeam2Odds.setText(win3odds);
+        btnDrawOdds.setText(win2odds);
 
         return convertView;
     }
