@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         Query reference = FirebaseDatabase.getInstance().getReference().child("Matches").limitToFirst(1);
         //  Query reference = FirebaseDatabase.getInstance().getReference().child("Matches").startAt("Team 1").endAt("Team 1");
         // Toast toast=Toast.makeText(getApplicationContext(),"Hello Javatpoint", Toast.LENGTH_SHORT);
-        Log.i("test","test");
+       // Log.i("test","test");
 /*
         ListView mListView = (ListView) findViewById(R.id.listViewMatches);
 
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 {
 
                     //textView5.setText(snapshot.getValue().toString());
-                    Log.i("DataSnapshot",snapshot.getValue().toString());
+//                    Log.i("DataSnapshot",snapshot.getValue().toString());
 
 
                 }
@@ -94,21 +94,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e("DataSnapshot",databaseError.getMessage());
+        //        Log.e("DataSnapshot",databaseError.getMessage());
             }
         });
 
-        Log.i("DataSnapshot","wyjebalem sie");
+       // Log.i("DataSnapshot","wyjebalem sie");
 
-        MatchesFragment fragment = new MatchesFragment();
-        if (fragment != null) {
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().commit();
-
-        } else {
-            // error in creating fragment
-            Log.e("MainActivity", "Error in creating fragment");
-        }
 
     }
 
