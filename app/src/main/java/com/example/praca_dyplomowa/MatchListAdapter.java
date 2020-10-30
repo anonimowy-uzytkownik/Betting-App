@@ -1,9 +1,14 @@
 package com.example.praca_dyplomowa;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.StrictMode;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +24,8 @@ import androidx.annotation.Nullable;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -53,7 +61,11 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        String team1Name = getItem(position).getTeam1Name();
+
+
+
+
+        final String team1Name = getItem(position).getTeam1Name();
         String team2Name= getItem(position).getTeam2Name();
         String win1odds= getItem(position).getWin1odds();
         String win2odds= getItem(position).getWin2odds();
@@ -132,7 +144,7 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
         TextView tvTeam1Name = (TextView) convertView.findViewById(R.id.textViewTeam1Name);
         TextView tvTeam2Name = (TextView) convertView.findViewById(R.id.textViewTeam2Name);
         TextView tvResult = (TextView) convertView.findViewById(R.id.textViewResult);
-        Button btnTeam1Odds = (Button) convertView.findViewById(R.id.buttonTeam1);
+        final Button btnTeam1Odds = (Button) convertView.findViewById(R.id.buttonTeam1);
         Button btnTeam2Odds = (Button) convertView.findViewById(R.id.buttonTeam2);
         Button btnDrawOdds = (Button) convertView.findViewById(R.id.buttonTeamDraw);
 
@@ -151,27 +163,64 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
         btnDrawOdds.setText(win2odds);
 
 
-
-
-
-
-
-
-
-
         try {
             URL url = new URL(image1);
             Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
             imgTeam1.setImageBitmap(image);
+
             URL url2 = new URL(image2);
             image = BitmapFactory.decodeStream(url2.openConnection().getInputStream());
             imgTeam2.setImageBitmap(image);
-        } catch(IOException e) {
+            }
+        catch(IOException e) {}
 
-        }
+
+        btnTeam1Odds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // Log.d("btnTeam1Odds","OnClickListener");
+                Log.d("btnTeam1Odds",btnTeam1Odds.getText().toString());
+                Log.d("txbTeam1Name",team1Name);
+                Toast.makeText(getContext(), "nazwa zespolu " + team1Name, Toast.LENGTH_SHORT).show();
+                btnTeam1Odds.setEnabled(false);
+            }
+        });
+/*
+        try {
+            URL url = new URL(image1);
+            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.PNG,1,stream);
+
+            byte[] b = stream.toByteArray();
+            ByteArrayInputStream is = new ByteArrayInputStream(b);
+            Drawable d = Drawable.createFromStream(is, "bloodsample");
+            imgTeam1.setImageDrawable(d);
+
+            URL url2 = new URL(image2);
+            Bitmap imagee = BitmapFactory.decodeStream(url2.openConnection().getInputStream());
+            imagee.compress(Bitmap.CompressFormat.PNG,1,stream);
+            b = stream.toByteArray();
+            is = new ByteArrayInputStream(b);
+            d = Drawable.createFromStream(is, "bloodsample");
+            imgTeam2.setImageDrawable(d);
+            }
+        catch(IOException e) {} */
+
+
+
 
 
 
         return convertView;
     }
+
+
+
+
+
+
 }
+
+

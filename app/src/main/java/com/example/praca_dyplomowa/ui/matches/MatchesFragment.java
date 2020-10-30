@@ -3,6 +3,8 @@ package com.example.praca_dyplomowa.ui.matches;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -17,8 +19,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.praca_dyplomowa.Match;
 import com.example.praca_dyplomowa.MatchListAdapter;
@@ -55,6 +61,29 @@ public class MatchesFragment extends Fragment  {
 
 
 
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                Toast.makeText(getContext(), "Clicked at positon = " + position, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getContext(), "Clicked at id = " + id, Toast.LENGTH_SHORT).show();
+
+
+
+            }
+        });
+
+         /*       buttonTeam1.findViewById(R.id.buttonTeam1);
+
+        buttonTeam1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Listview button","im working");
+            }
+        }); */
+
+
         Query reference = FirebaseDatabase.getInstance().getReference().child("Matches");
         matchList.clear();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -71,13 +100,15 @@ public class MatchesFragment extends Fragment  {
                     String Result = String.valueOf(snapshot.child("result").getValue());
                     String Image1 = String.valueOf(snapshot.child("image1").getValue());
                     String Image2 = String.valueOf(snapshot.child("image2").getValue());
+                  //  String Image1="",Image2="";
+
 
                     Match match = new Match(Team1,Team2,Win1,Draw,Win2,Result, Image1, Image2);
                     matchList.add(match);
 
                     adapter.notifyDataSetChanged();
 
-                    Log.i("DataSnapshot",snapshot.getValue().toString());
+                //    Log.i("DataSnapshot",snapshot.getValue().toString());
 
 
                 }
@@ -98,6 +129,15 @@ public class MatchesFragment extends Fragment  {
         usersRef.child("5").setValue(new Match("Barcelona","Ferencvarosz","1.11","20","5.6","3:0","https://logos-world.net/wp-content/uploads/2020/04/Barcelona-Logo.png","https://upload.wikimedia.org/wikipedia/commons/5/5c/Ferencv%C3%A1rosiTClog%C3%B3.png"));
         usersRef.child("6").setValue(new Match("Lokomotiv Moscow","Bayern Munich","15","3.8","1.13","1:1","https://logos-world.net/wp-content/uploads/2020/06/atletico-madrid-Logo.png","https://www.logofootball.net/wp-content/uploads/FC-Red-Bull-Salzburg-HD-Logo.png"));
         */
+
+        String testimage="https://upload.wikimedia.org/wikipedia/commons/d/d5/Japan_small_icon.png";
+
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Matches");
+        usersRef.child("3").setValue(new Match("Atletico Madrid","Red Bull Salzburg","1.56","4.14","5.3","0:0",testimage,testimage));
+        usersRef.child("4").setValue(new Match("Porto","Olympiacos","1.59","3.8","5.6","0:0",testimage,testimage));
+        usersRef.child("5").setValue(new Match("Barcelona","Ferencvarosz","1.11","20","5.6","3:0",testimage,testimage));
+        usersRef.child("6").setValue(new Match("Lokomotiv Moscow","Bayern Munich","15","3.8","1.13","1:1",testimage,testimage));
+
 
      //   return inflater.inflate(R.layout.fragment_matches, container, false);  crashuje się gdy returnuje inną wersje iflatera niz ta zdeklarowania u góry
         return rootView;
