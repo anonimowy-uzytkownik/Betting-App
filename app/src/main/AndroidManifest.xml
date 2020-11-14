@@ -26,6 +26,12 @@
         <activity android:name=".NotificationsActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MatchesActivity" />
+        <activity android:name=".ui.profile.ProfileDisplayNameChange"
+            android:theme="@style/AppTheme.CustomTheme"
+            ></activity>
+        <activity android:name=".ui.profile.ProfilePasswordChange"
+            android:theme="@style/AppTheme.CustomTheme"
+            ></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/colorAccent">
+
+    <EditText
+        android:id="@+id/editTextNewDisplayName"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:hint=""
+        android:inputType="text"
+        android:textColor="#000000"
+        android:background="@drawable/edit_text_border"/>
+
+    <Button
+        android:id="@+id/buttonPasswordChange"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/editTextNewDisplayName"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Save changes"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
+
+</RelativeLayout>

@@ -1,7 +1,10 @@
 package com.example.praca_dyplomowa.ui.profile;
 
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -84,20 +87,13 @@ public class ProfileFragment extends Fragment {
         buttonChangeDisplayName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-       /*         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                        .setDisplayName(dspName).build();
-                user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.d("displayname","user profile updated");
-                    }
-                }); */
+                startActivity(new Intent(ProfileFragment.this.getActivity(),ProfileDisplayNameChange.class));
             }
         });
         buttonChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //user.updateEmail()
+                startActivity(new Intent(ProfileFragment.this.getActivity(),ProfilePasswordChange.class));
             }
         });
 
