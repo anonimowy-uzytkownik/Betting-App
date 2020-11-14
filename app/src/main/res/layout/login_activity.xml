@@ -18,7 +18,7 @@
         android:gravity="center"
         android:hint="e-mail"
         android:inputType="text"
-        android:text="tester@test.pl" />
+        android:text="@string/default_email" />
 
     <EditText
         android:id="@+id/password"
@@ -28,11 +28,9 @@
         android:layout_marginTop="15dp"
         android:background="@drawable/edit_text_border"
         android:gravity="center"
-
-
         android:hint="password"
         android:inputType="text"
-        android:text="tester" />
+        android:text="@string/default_password" />
 
 
     <Button

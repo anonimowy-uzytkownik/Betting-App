@@ -19,6 +19,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -51,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailId.getText().toString().trim();
+                final String email = emailId.getText().toString().trim();
                 String pwd = password.getText().toString().trim();
                 final String dspName = displayName.getText().toString().trim();
 
@@ -75,7 +77,6 @@ public class SignUpActivity extends AppCompatActivity {
 
 
 
-
                 progressBar.setVisibility(View.VISIBLE);
                 mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -95,6 +96,18 @@ public class SignUpActivity extends AppCompatActivity {
 
                            // Toast.makeText(SignUpActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
                            // Toast.makeText(SignUpActivity.this, user.getDisplayName(), Toast.LENGTH_SHORT).show();
+
+
+
+                            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+
+                            String username = dspName;
+                            String coins = "100";
+                            usersRef.child(String.valueOf(email.hashCode())).setValue(new User(username,email,coins));
+                            Log.d("account","user should've been created");
+                            //usersRef.child(nazwa.getText().toString()).setValue(new Przepis());
+
+
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(SignUpActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

@@ -10,9 +10,9 @@ public class Authentication {
 
     public void SaveUserToDatabase()
     {
-        User currentUser = new User();
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        usersRef.child(currentUser.getEmail()).setValue(currentUser);
+        //User currentUser = new User();
+        //DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        //usersRef.child(currentUser.getEmail()).setValue(currentUser);
 
     }
 

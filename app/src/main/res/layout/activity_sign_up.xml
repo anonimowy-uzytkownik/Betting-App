@@ -16,7 +16,8 @@
         android:background="@drawable/edit_text_border"
         android:gravity="center"
         android:hint="display name"
-        android:inputType="text" />
+        android:inputType="text"
+        android:text="kacper" />
 
     <EditText
         android:id="@+id/login"
@@ -24,11 +25,12 @@
         android:layout_height="50dp"
         android:layout_above="@+id/password"
         android:layout_centerInParent="true"
+        android:layout_marginTop="15dp"
         android:background="@drawable/edit_text_border"
         android:gravity="center"
         android:hint="e-mail"
-        android:layout_marginTop="15dp"
-        android:inputType="text" />
+        android:inputType="text"
+        android:text="kacper@kacper.pl" />
 
     <EditText
         android:id="@+id/password"
@@ -39,7 +41,8 @@
         android:background="@drawable/edit_text_border"
         android:gravity="center"
         android:hint="password"
-        android:inputType="text" />
+        android:inputType="text"
+        android:text="kacper123" />
 
 
     <Button

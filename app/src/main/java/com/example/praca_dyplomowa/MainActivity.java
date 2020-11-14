@@ -40,9 +40,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
   //      User user = new User();
-          Log.d("DisplayName", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        // Log.d("DisplayName", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
       //  Authentication authentication = new Authentication();
       //  authentication.SaveUserToDatabase();
 
