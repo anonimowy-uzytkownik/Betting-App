@@ -34,8 +34,6 @@ public class ProfileDisplayNameChange extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         setContentView(R.layout.window_displayname_change);
 
         buttonPasswordChange=(Button)findViewById(R.id.buttonPasswordChange);

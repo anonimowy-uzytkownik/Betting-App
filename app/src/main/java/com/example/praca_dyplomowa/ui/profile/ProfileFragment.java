@@ -5,12 +5,17 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +24,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.praca_dyplomowa.Authentication;
 import com.example.praca_dyplomowa.R;
 import com.example.praca_dyplomowa.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,6 +42,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.IOException;
+import java.net.URL;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
@@ -43,10 +59,20 @@ public class ProfileFragment extends Fragment {
         return new ProfileFragment();
     }
 
+    private String selectedImagePath;
+    static String imagePath = null;
+    public Uri imageUri;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    static boolean czyUploadowac=false;
+    static  String obrazekURL=null;
+
+
     TextView textViewDisplayName, textViewCoins;
     ImageView imageViewAvatar;
     Button buttonChangePassword,buttonChangeDisplayName;
-
+    Query reference = FirebaseDatabase.getInstance().getReference().child("Users");
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Nullable
     @Override
@@ -74,6 +100,16 @@ public class ProfileFragment extends Fragment {
                     {Log.d("UserHash2",snapshot.getKey());
                     textViewDisplayName.setText(snapshot.child("username").getValue().toString());
                     textViewCoins.setText(snapshot.child("coins").getValue().toString()+" coins left!");
+
+                    try {
+                            if(snapshot.child("avatar").getValue()==null){return;}
+                            String linkToAvatar=snapshot.child("avatar").getValue().toString();
+                            URL url = new URL(linkToAvatar);
+                            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                            imageViewAvatar.setImageBitmap(image);
+                        }
+
+                        catch(IOException e) {Log.e("image error",e.getMessage());}
                     }
                 }
             }
@@ -97,18 +133,86 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        imageViewAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                final int ACTIVITY_SELECT_IMAGE = 1234;
+                startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
+            }
+        });
+
         return rootView;
     }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
         // TODO: Use the ViewModel
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1234) {
+                Uri selectedImageUri = data.getData();
+                selectedImagePath = getPath(selectedImageUri);
+                imagePath=selectedImagePath;
+                //Log.d("sciezka", selectedImagePath);
+                System.out.println("Image Path : " + selectedImagePath);
+                imageUri = data.getData();
+
+                storage= FirebaseStorage.getInstance();
+                storageReference= storage.getReference();
+                uploadPicture(String.valueOf(user.getEmail().hashCode()));
+            }
+        }
+
+    }
 
 
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
+    private void uploadPicture(String nazwaPliku) {
+
+        StorageReference riversRef = storageReference.child("images/" + nazwaPliku);
+        riversRef.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Task<Uri> result = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                        result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+
+                                obrazekURL = uri.toString();
+
+                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(String.valueOf(user.getEmail().hashCode()));
+                                mDatabase.child("avatar").setValue(uri.toString());
+
+                                Log.d("obrazekURL",obrazekURL);
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                    }
+                });
 
 
     }
 
 }
+
