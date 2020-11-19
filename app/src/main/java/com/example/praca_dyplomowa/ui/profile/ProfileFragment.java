@@ -1,5 +1,6 @@
 package com.example.praca_dyplomowa.ui.profile;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProviders;
@@ -9,6 +10,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -45,6 +47,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.kwabenaberko.newsapilib.NewsApiClient;
+import com.kwabenaberko.newsapilib.models.request.EverythingRequest;
+import com.kwabenaberko.newsapilib.models.response.ArticleResponse;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.net.URL;
@@ -64,20 +72,22 @@ public class ProfileFragment extends Fragment {
     public Uri imageUri;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-    static boolean czyUploadowac=false;
     static  String obrazekURL=null;
 
 
     TextView textViewDisplayName, textViewCoins;
     ImageView imageViewAvatar;
     Button buttonChangePassword,buttonChangeDisplayName;
-    Query reference = FirebaseDatabase.getInstance().getReference().child("Users");
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+
+        //http://newsapi.org/v2/top-headlines?country=pl&category=sports&apiKey=da1af89106904a70a0a61e0ab58c600f
 
 
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
