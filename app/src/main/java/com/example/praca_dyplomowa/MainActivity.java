@@ -1,11 +1,17 @@
 package com.example.praca_dyplomowa;
 
 import android.app.FragmentManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.praca_dyplomowa.ui.matches.MatchesFragment;
@@ -27,6 +33,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,10 +48,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-  //      User user = new User();
-        // Log.d("DisplayName", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-      //  Authentication authentication = new Authentication();
-      //  authentication.SaveUserToDatabase();
+       // NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        //textViewDisplayNameNav.setText(currentUser.username);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -57,41 +64,45 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        // Query reference = FirebaseDatabase.getInstance().getReference().child("Matches").child("1").limitToFirst(2);
-        Query reference = FirebaseDatabase.getInstance().getReference().child("Matches").limitToFirst(1);
-        //  Query reference = FirebaseDatabase.getInstance().getReference().child("Matches").startAt("Team 1").endAt("Team 1");
-        // Toast toast=Toast.makeText(getApplicationContext(),"Hello Javatpoint", Toast.LENGTH_SHORT);
-       // Log.i("test","test");
-/*
-        ListView mListView = (ListView) findViewById(R.id.listViewMatches);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        View headerView = navigationView.getHeaderView(0);
+        final User currentUser = new User();
+        final TextView textViewDisplayNameNav = headerView.findViewById(R.id.textViewDisplayNameNav);
+        final TextView textViewCoinsNav = headerView.findViewById(R.id.textViewCoinsNav);
+        final ImageView imageViewAvatarNav = headerView.findViewById(R.id.imageViewAvatarNav);
+        textViewDisplayNameNav.setText(currentUser.username);
 
-        Match AjaxBarcelona = new Match("Ajax","Barcelona","1.2","2.5","1.3","0:0");
-        Match AjaxBarcelona2 = new Match("Ajax2","Barcelona2","1.2","2.5","1.3","0:0");
-
-        ArrayList<Match> matchList = new ArrayList<>();
-        matchList.add(AjaxBarcelona);
-        matchList.add(AjaxBarcelona2);
-
-        MatchListAdapter adapter = new MatchListAdapter(this,R.layout.adapter_view_layout,matchList);
-        mListView.setAdapter(adapter);  */
+        Query reference = FirebaseDatabase.getInstance().getReference().child("Users");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
-
-                    //textView5.setText(snapshot.getValue().toString());
-//                    Log.i("DataSnapshot",snapshot.getValue().toString());
-
-
+                    if(Integer.parseInt(snapshot.getKey())==currentUser.getEmail().hashCode()) {
+                        Log.d("UserHash2", snapshot.getKey());
+                        textViewDisplayNameNav.setText(snapshot.child("username").getValue().toString());
+                        textViewCoinsNav.setText(snapshot.child("coins").getValue().toString() + " coins left!");
+                        try {
+                            if (snapshot.child("avatar").getValue() == null) {
+                                return;
+                            }
+                            String linkToAvatar = snapshot.child("avatar").getValue().toString();
+                            URL url = new URL(linkToAvatar);
+                           Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                            imageViewAvatarNav.setImageBitmap(image);
+                        } catch (IOException e) {
+                            Log.e("image error", e.getMessage());
+                        }
+                    }
+                    }
                 }
 
-            }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-        //        Log.e("DataSnapshot",databaseError.getMessage());
+
             }
         });
 

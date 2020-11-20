@@ -1,6 +1,7 @@
 package com.example.praca_dyplomowa;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class User {
     String username;
@@ -18,6 +19,12 @@ public class User {
         this.username = username;
         this.email = email;
         this.coins = coins;
+    }
+
+    public User() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        this.username = user.getDisplayName();
+        this.email = user.getEmail();
     }
 
     public String getEmail() {
