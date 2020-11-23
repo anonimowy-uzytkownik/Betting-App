@@ -7,15 +7,75 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listViewMatches"
         android:clickable="false"
         android:descendantFocusability="blocksDescendants"
+        android:layout_below="@id/radioGroupMatches"
         >
 
-
     </ListView>
+
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:id="@+id/radioGroupMatches"
+        >
+        <RadioButton
+            android:id="@+id/radioButtonUefaNationsLeague"
+            android:layout_width="80dp"
+            android:gravity="center"
+            android:layout_height="70dp"
+            android:background="@drawable/radio_flat_selector"
+            android:button="@android:color/transparent"
+            android:checked="true"
+            android:paddingLeft="16dp"
+            android:paddingTop="3dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="3dp"
+            android:text="Nations League"
+            android:textColor="@drawable/radio_flat_text_selector"
+            android:layout_weight="30"
+            />
+
+
+        <RadioButton
+            android:id="@+id/radioButtonUefaChampionsLeague"
+            android:layout_width="80dp"
+            android:layout_height="70dp"
+            android:layout_weight="30"
+            android:background="@drawable/radio_flat_selector"
+            android:button="@android:color/transparent"
+            android:checked="false"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingTop="20dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="3dp"
+            android:text="Champions League"
+            android:textColor="@drawable/radio_flat_text_selector" />
+
+        <RadioButton
+            android:id="@+id/radioButtonEuropaLeague"
+            android:layout_width="80dp"
+            android:gravity="center"
+            android:layout_height="70dp"
+            android:background="@drawable/radio_flat_selector"
+            android:button="@android:color/transparent"
+            android:checked="false"
+            android:paddingLeft="16dp"
+            android:paddingTop="3dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="3dp"
+            android:text="Europe League"
+            android:textColor="@drawable/radio_flat_text_selector"
+            android:layout_weight="30"/>
+    </RadioGroup>
 
 </RelativeLayout>

@@ -72,10 +72,6 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-
-        //http://newsapi.org/v2/top-headlines?country=pl&category=sports&apiKey=da1af89106904a70a0a61e0ab58c600f
-
-
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

@@ -23,11 +23,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.praca_dyplomowa.Match;
 import com.example.praca_dyplomowa.MatchListAdapter;
+import com.example.praca_dyplomowa.Message;
 import com.example.praca_dyplomowa.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
 
 import java.util.ArrayList;
 
@@ -55,94 +58,158 @@ public class MatchesFragment extends Fragment  {
 
         View rootView = inflater.inflate(R.layout.fragment_matches, container, false);
         ListView mListView = (ListView)rootView.findViewById(R.id.listViewMatches);
+        RadioButton radioButtonChampions = (RadioButton)rootView.findViewById(R.id.radioButtonUefaChampionsLeague);
+        RadioButton radioButtonEuropa = (RadioButton)rootView.findViewById(R.id.radioButtonEuropaLeague);
+        RadioButton radioButtonNations = (RadioButton)rootView.findViewById(R.id.radioButtonUefaNationsLeague);
         final ArrayList<Match> matchList = new ArrayList<>();
         final MatchListAdapter adapter = new MatchListAdapter(getContext(),R.layout.adapter_view_layout,matchList);
         mListView.setAdapter(adapter);
 
 
+        radioButtonChampions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                matchList.clear();
+                adapter.notifyDataSetChanged();
+
+                final Query reference = FirebaseDatabase.getInstance().getReference().child("Matches").child("ChampionsLeague");
+                matchList.clear();
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        {
+                            String Team1 = String.valueOf(snapshot.child("team1Name").getValue());
+                            String Team2 = String.valueOf(snapshot.child("team2Name").getValue());
+                            String Draw = String.valueOf(snapshot.child("win2odds").getValue());
+                            String Win1 = String.valueOf(snapshot.child("win1odds").getValue());
+                            String Win2 = String.valueOf(snapshot.child("win3odds").getValue());
+                            String Result = String.valueOf(snapshot.child("result").getValue());
+                            String Image1 = String.valueOf(snapshot.child("image1").getValue());
+                            String Image2 = String.valueOf(snapshot.child("image2").getValue());
+                            String League = "ChampionsLeague";
+                            String MatchId = String.valueOf(snapshot.getKey());
+                            String Status = String.valueOf(snapshot.child("status").getValue());
+                            if(!Status.equals("done")) {
+                                Match match = new Match(Team1, Team2, Win1, Draw, Win2, Result, Image1, Image2, League, MatchId);
+                                matchList.add(match);
+
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("DataSnapshot",databaseError.getMessage());
+                    }
+                });
+            }
+        });
+        radioButtonEuropa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                matchList.clear();
+                adapter.notifyDataSetChanged();
+
+                Query reference = FirebaseDatabase.getInstance().getReference().child("Matches").child("EuropaLeague");
+                matchList.clear();
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String Team1 = String.valueOf(snapshot.child("team1Name").getValue());
+                            String Team2 = String.valueOf(snapshot.child("team2Name").getValue());
+                            String Draw = String.valueOf(snapshot.child("win2odds").getValue());
+                            String Win1 = String.valueOf(snapshot.child("win1odds").getValue());
+                            String Win2 = String.valueOf(snapshot.child("win3odds").getValue());
+                            String Result = String.valueOf(snapshot.child("result").getValue());
+                            String Image1 = String.valueOf(snapshot.child("image1").getValue());
+                            String Image2 = String.valueOf(snapshot.child("image2").getValue());
+                            String League = "EuropaLeague";
+                            String MatchId = String.valueOf(snapshot.getKey());
+                            String Status = String.valueOf(snapshot.child("status").getValue());
+                            if(!Status.equals("done")) {
+                            Match match = new Match(Team1, Team2, Win1, Draw, Win2, Result, Image1, Image2, League, MatchId);
+                            matchList.add(match);
+
+                            adapter.notifyDataSetChanged();
+                        }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("DataSnapshot",databaseError.getMessage());
+                    }
+                });
+            }
+        });
+        radioButtonNations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                matchList.clear();
+                adapter.notifyDataSetChanged();
+
+                Query reference = FirebaseDatabase.getInstance().getReference().child("Matches").child("NationsLeague");
+                matchList.clear();
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        {
+                            String Team1 = String.valueOf(snapshot.child("team1Name").getValue());
+                            String Team2 = String.valueOf(snapshot.child("team2Name").getValue());
+                            String Draw = String.valueOf(snapshot.child("win2odds").getValue());
+                            String Win1 = String.valueOf(snapshot.child("win1odds").getValue());
+                            String Win2 = String.valueOf(snapshot.child("win3odds").getValue());
+                            String Result = String.valueOf(snapshot.child("result").getValue());
+                            String Image1 = String.valueOf(snapshot.child("image1").getValue());
+                            String Image2 = String.valueOf(snapshot.child("image2").getValue());
+                            String League = "NationsLeague";
+                            String MatchId = String.valueOf(snapshot.getKey());
+                            String Status = String.valueOf(snapshot.child("status").getValue());
+                            if(!Status.equals("done")) {
+                                Match match = new Match(Team1, Team2, Win1, Draw, Win2, Result, Image1, Image2, League, MatchId);
+                                matchList.add(match);
+
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("DataSnapshot",databaseError.getMessage());
+                    }
+                });
+            }
+        });
+
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
                 Toast.makeText(getContext(), "Clicked at positon = " + position, Toast.LENGTH_SHORT).show();
-              //  Toast.makeText(getContext(), "Clicked at id = " + id, Toast.LENGTH_SHORT).show();
-
-
-
             }
         });
 
-         /*       buttonTeam1.findViewById(R.id.buttonTeam1);
-
-        buttonTeam1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("Listview button","im working");
-            }
-        }); */
+        radioButtonNations.callOnClick();
 
 
-        Query reference = FirebaseDatabase.getInstance().getReference().child("Matches");
-        matchList.clear();
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                {
-
-                    String Team1 = String.valueOf(snapshot.child("team1Name").getValue());
-                    String Team2 = String.valueOf(snapshot.child("team2Name").getValue());
-                    String Draw = String.valueOf(snapshot.child("win2odds").getValue());
-                    String Win1 = String.valueOf(snapshot.child("win1odds").getValue());
-                    String Win2 = String.valueOf(snapshot.child("win3odds").getValue());
-                    String Result = String.valueOf(snapshot.child("result").getValue());
-                    String Image1 = String.valueOf(snapshot.child("image1").getValue());
-                    String Image2 = String.valueOf(snapshot.child("image2").getValue());
-                  //  String Image1="",Image2="";
-
-
-                    Match match = new Match(Team1,Team2,Win1,Draw,Win2,Result, Image1, Image2);
-                    matchList.add(match);
-
-                    adapter.notifyDataSetChanged();
-
-                //    Log.i("DataSnapshot",snapshot.getValue().toString());
-
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("DataSnapshot",databaseError.getMessage());
-            }
-        });
-
-
-        /*
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Matches");
-        usersRef.child("3").setValue(new Match("Atletico Madrid","Red Bull Salzburg","1.56","4.14","5.3","0:0","https://logos-world.net/wp-content/uploads/2020/06/atletico-madrid-Logo.png","https://www.logofootball.net/wp-content/uploads/FC-Red-Bull-Salzburg-HD-Logo.png"));
-        usersRef.child("4").setValue(new Match("Porto","Olympiacos","1.59","3.8","5.6","0:0","https://i.pinimg.com/originals/62/18/71/621871d5af93bcd67f63d056ad6e7af1.png","https://seeklogo.com/images/O/Olympiacos_FC-logo-8F8F1A05DD-seeklogo.com.png"));
-        usersRef.child("5").setValue(new Match("Barcelona","Ferencvarosz","1.11","20","5.6","3:0","https://logos-world.net/wp-content/uploads/2020/04/Barcelona-Logo.png","https://upload.wikimedia.org/wikipedia/commons/5/5c/Ferencv%C3%A1rosiTClog%C3%B3.png"));
-        usersRef.child("6").setValue(new Match("Lokomotiv Moscow","Bayern Munich","15","3.8","1.13","1:1","https://logos-world.net/wp-content/uploads/2020/06/atletico-madrid-Logo.png","https://www.logofootball.net/wp-content/uploads/FC-Red-Bull-Salzburg-HD-Logo.png"));
-        */
-
+/*
         String testimage="https://upload.wikimedia.org/wikipedia/commons/d/d5/Japan_small_icon.png";
 
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Matches");
-        usersRef.child("3").setValue(new Match("Atletico Madrid","Red Bull Salzburg","1.56","4.14","5.3","0:0",testimage,testimage));
-        usersRef.child("4").setValue(new Match("Porto","Olympiacos","1.59","3.8","5.6","0:0",testimage,testimage));
-        usersRef.child("5").setValue(new Match("Barcelona","Ferencvarosz","1.11","20","5.6","3:0",testimage,testimage));
-        usersRef.child("6").setValue(new Match("Lokomotiv Moscow","Bayern Munich","15","3.8","1.13","1:1",testimage,testimage));
-
-
-     //   return inflater.inflate(R.layout.fragment_matches, container, false);  crashuje się gdy returnuje inną wersje iflatera niz ta zdeklarowania u góry
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Matches").child("NationsLeague");
+        usersRef.push().setValue(new Match("3Atletico Madrid","3Red Bull Salzburg","1.56","4.14","5.3","0:0",testimage,testimage));
+        usersRef.push().setValue(new Match("3Porto","3Olympiacos","1.59","3.8","5.6","0:0",testimage,testimage));
+        usersRef.push().setValue(new Match("3Barcelona","3Ferencvarosz","1.11","20","5.6","3:0",testimage,testimage));
+        usersRef.push().setValue(new Match("3Lokomotiv Moscow","3Bayern Munich","15","3.8","1.13","1:1",testimage,testimage));
+*/
         return rootView;
-
-
     }
 
     @Override

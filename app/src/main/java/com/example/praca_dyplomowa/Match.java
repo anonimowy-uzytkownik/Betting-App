@@ -1,5 +1,7 @@
 package com.example.praca_dyplomowa;
 
+import android.util.Log;
+
 public class Match {
 
     private String team1Name;
@@ -10,6 +12,37 @@ public class Match {
     private String result;
     private String image1;
     private String image2;
+    private String league;
+    private String matchId;
+
+    public String getLeague() {
+        return league;
+    }
+
+    public void setLeague(String league) {
+        this.league = league;
+    }
+
+    public String getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(String matchId) {
+        this.matchId = matchId;
+    }
+
+    public Match(String team1Name, String team2Name, String win1odds, String win2odds, String win3odds, String result, String image1, String image2, String league, String matchId) {
+        this.team1Name = team1Name;
+        this.team2Name = team2Name;
+        this.win1odds = win1odds;
+        this.win2odds = win2odds;
+        this.win3odds = win3odds;
+        this.result = result;
+        this.image1 = image1;
+        this.image2 = image2;
+        this.league = league;
+        this.matchId = matchId;
+    }
 
     public Match(String team1Name, String team2Name, String win1odds, String win2odds, String win3odds, String result, String image1, String image2) {
         this.team1Name = team1Name;
@@ -84,5 +117,16 @@ public class Match {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    static String calculateResult(String result)
+    {
+        int team1Score,team2Score;
+        team1Score = Integer.parseInt(result.substring(0,result.lastIndexOf(":")));
+        team2Score = Integer.parseInt(result.substring(result.lastIndexOf(":")+1));
+        if(team1Score>team2Score){return "Team1";}
+        else if(team1Score>team2Score){return "Team2";}
+        else{return "Draw";}
+
     }
 }
