@@ -104,7 +104,6 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
         catch(IOException e) {}
 
 
-        final View finalConvertView = convertView;
         btnTeam1Odds.setOnClickListener(new View.OnClickListener()
         {
             @Override

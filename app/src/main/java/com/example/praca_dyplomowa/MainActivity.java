@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                if(String.valueOf(snapshot.child("status").getValue()).equals("done"))
+                if(String.valueOf(snapshot.child("status").getValue()).equals("done"))      //email z betu znika zanim sie do niego dostaje
                 {
 
                     Intent activityMatches = new Intent(getApplicationContext(),MainActivity.class);
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
                     PendingIntent resultPendingIntent =
                             stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
+                    final NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
                             .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
                             .setContentTitle("test")
                             .setContentText(snapshot.child("team1Name").getValue().toString()+"vs"+snapshot.child("team2Name").getValue().toString()+"has finished!")
@@ -262,11 +262,51 @@ public class MainActivity extends AppCompatActivity {
 
 
                     //  builder.build();
-                    NotificationManager notificationManager = (NotificationManager)getSystemService(
-                            Context.NOTIFICATION_SERVICE
-                    ) ;
-                    notificationManager.notify(0,builder.build());
-                    
+
+                    Log.d("snapshotValue","works");
+                    Query referenceNationsLeagueBets = FirebaseDatabase.getInstance().getReference().child("Matches").child("NationsLeague").child(snapshot.getKey()).child("bets");
+
+                    referenceNationsLeagueBets.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                        {
+                            Log.d("snapshotValue",dataSnapshot.getValue().toString());
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                            {
+                                Log.d("snapshotValue",String.valueOf(snapshot.child("email").getValue()));
+                                Log.d("emailValue",currentUser.getEmail());
+                                if (String.valueOf(snapshot.child("email").getValue()).equals(currentUser.getEmail()))
+                                {
+                                    NotificationManager notificationManager = (NotificationManager)getSystemService
+                                            (
+                                                    Context.NOTIFICATION_SERVICE
+                                            ) ;
+                                    notificationManager.notify(0,builder.build());
+                                }
+                            }
+
+
+
+                           /*
+                            Log.d("snapshotValue",String.valueOf(snapshot.child("")));
+                            Log.d("emailValue",currentUser.getEmail());
+                            if (String.valueOf(snapshot.child("email").getValue()).equals(currentUser.getEmail()))
+                            {
+                                NotificationManager notificationManager = (NotificationManager)getSystemService
+                                        (
+                                        Context.NOTIFICATION_SERVICE
+                                ) ;
+                                notificationManager.notify(0,builder.build());
+                            }*/
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
                 }
             }
 
@@ -368,20 +408,6 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Notifications";
-            String description = "description of the notifications channel";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("Notifications", name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
+
 
 }
