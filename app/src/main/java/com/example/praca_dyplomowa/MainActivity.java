@@ -1,8 +1,15 @@
 package com.example.praca_dyplomowa;
 
 import android.app.FragmentManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -15,10 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.praca_dyplomowa.ui.matches.MatchesFragment;
+import com.example.praca_dyplomowa.ui.notifications.NotificationService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +36,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -51,7 +62,18 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       // NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+
+/*
+        createNotificationChannel();
+        NotificationService notificationService=new NotificationService();
+        notificationService.initializeTimerTask();
+*/
+
+
+
+
+        // NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         //textViewDisplayNameNav.setText(currentUser.username);
 
@@ -212,16 +234,50 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference referenceNotifications =  firebaseDatabase.getReference().child("Matches").child("NationsLeague");
 
-        referenceNotifications.addValueEventListener(new ValueEventListener() {
+        referenceNotifications.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Iterable<DataSnapshot> children = snapshot.getChildren();
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                for(DataSnapshot child: children)
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                if(String.valueOf(snapshot.child("status").getValue()).equals("done"))
                 {
-                   String status = String.valueOf(child.child("status").getValue());
-                   Toast.makeText(getApplicationContext(),status,Toast.LENGTH_SHORT);
+
+                    Intent activityMatches = new Intent(getApplicationContext(),MainActivity.class);
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                    stackBuilder.addParentStack(MainActivity.class);
+                    stackBuilder.addNextIntent(activityMatches);
+                    PendingIntent resultPendingIntent =
+                            stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
+                            .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                            .setContentTitle("test")
+                            .setContentText(snapshot.child("team1Name").getValue().toString()+"vs"+snapshot.child("team2Name").getValue().toString()+"has finished!")
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setContentIntent(resultPendingIntent);
+
+
+                    //  builder.build();
+                    NotificationManager notificationManager = (NotificationManager)getSystemService(
+                            Context.NOTIFICATION_SERVICE
+                    ) ;
+                    notificationManager.notify(0,builder.build());
+                    
                 }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
             }
 
             @Override
@@ -230,8 +286,73 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
+
+        /*
+        referenceNotifications.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                 if(String.valueOf(snapshot.child("status").getValue()).equals("done"))
+                 {
+                     Intent activityMatches = new Intent(getApplicationContext(),MainActivity.class);
+                     TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                     stackBuilder.addParentStack(MainActivity.class);
+                     stackBuilder.addNextIntent(activityMatches);
+                     PendingIntent resultPendingIntent =
+                             stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                     NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
+                             .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                             .setContentTitle("test")
+                             .setContentText(snapshot.child("team1Name").getValue().toString()+"vs"+snapshot.child("team2Name").getValue().toString()+"has finished!")
+                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                             .setContentIntent(resultPendingIntent);
+
+
+                     //  builder.build();
+                     NotificationManager notificationManager = (NotificationManager)getSystemService(
+                             Context.NOTIFICATION_SERVICE
+                     ) ;
+                     notificationManager.notify(0,builder.build());
+                 }
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+*/
+        /*
+        Intent activityMatches = new Intent(getApplicationContext(),MainActivity.class);
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                stackBuilder.addParentStack(MainActivity.class);
+                stackBuilder.addNextIntent(activityMatches);
+                PendingIntent resultPendingIntent =
+                        stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
+                            .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                            .setContentTitle("test")
+                            .setContentText(snapshot.getValue().toString())
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setContentIntent(resultPendingIntent);
+
+
+                    //  builder.build();
+                    NotificationManager notificationManager = (NotificationManager)getSystemService(
+                            Context.NOTIFICATION_SERVICE
+                    ) ;
+                    notificationManager.notify(0,builder.build());
+}
+         */
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -245,6 +366,22 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Notifications";
+            String description = "description of the notifications channel";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("Notifications", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
 }
