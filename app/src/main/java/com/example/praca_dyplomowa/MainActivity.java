@@ -37,6 +37,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -110,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
+
+
         });
 
 
@@ -146,8 +149,13 @@ public class MainActivity extends AppCompatActivity {
                                             mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                                    int currentCoins = Integer.parseInt(dataSnapshot.child("coins").getValue().toString());
-                                                    mDatabase.child("coins").setValue(String.valueOf(currentCoins + Double.parseDouble(coinsToWin)));
+                                                    double currentCoins = Double.parseDouble(dataSnapshot.child("coins").getValue().toString());
+                                                    double result = currentCoins + Double.parseDouble(coinsToWin);
+                                                    DecimalFormat df = new DecimalFormat("0.00");
+                                                  //  System.out.println(df.format(result));
+                                                    // mDatabase.child("coins").setValue(String.format("%.2f",result));
+                                                   // Log.d("COINYYYYYY",String.valueOf(result));
+                                                    mDatabase.child("coins").setValue(df.format(result));
                                                 }
 
                                                 @Override
@@ -197,6 +205,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("DataSnapshot",databaseError.getMessage());
+            }
+        });
+
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference referenceNotifications =  firebaseDatabase.getReference().child("Matches").child("NationsLeague");
+
+        referenceNotifications.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Iterable<DataSnapshot> children = snapshot.getChildren();
+
+                for(DataSnapshot child: children)
+                {
+                   String status = String.valueOf(child.child("status").getValue());
+                   Toast.makeText(getApplicationContext(),status,Toast.LENGTH_SHORT);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 

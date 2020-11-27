@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.StrictMode;
+import android.text.util.Linkify;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.praca_dyplomowa.ui.matches.MatchesFragment;
+import com.example.praca_dyplomowa.ui.matches.MatchesPlaceBet;
+import com.example.praca_dyplomowa.ui.profile.ProfileDisplayNameChange;
+import com.example.praca_dyplomowa.ui.profile.ProfileFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,10 +42,11 @@ import java.util.List;
 
 public class MatchListAdapter extends ArrayAdapter<Match> {
 
-    private Context mContext;
+    private final Context mContext;
     int mResource;
 
-    public MatchListAdapter(Context context, int resource, ArrayList<Match> objects) {
+    public MatchListAdapter(Context context, int resource, ArrayList<Match> objects)
+    {
         super(context, resource, objects);
         mContext= context;
         mResource = resource;
@@ -48,7 +54,8 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable  View convertView, @NonNull final ViewGroup parent)
+    {
         final String team1Name = getItem(position).getTeam1Name();
         String team2Name= getItem(position).getTeam2Name();
         String win1odds= getItem(position).getWin1odds();
@@ -63,19 +70,19 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource,parent,false);
 
-        TextView tvTeam1Name = (TextView) convertView.findViewById(R.id.textViewTeam1Name);
-        TextView tvTeam2Name = (TextView) convertView.findViewById(R.id.textViewTeam2Name);
-        TextView tvResult = (TextView) convertView.findViewById(R.id.textViewResult);
-        final Button btnTeam1Odds = (Button) convertView.findViewById(R.id.buttonTeam1);
-        final Button btnTeam2Odds = (Button) convertView.findViewById(R.id.buttonTeam2);
-        final Button btnDrawOdds = (Button) convertView.findViewById(R.id.buttonTeamDraw);
+        TextView tvTeam1Name = convertView.findViewById(R.id.textViewTeam1Name);
+        TextView tvTeam2Name = convertView.findViewById(R.id.textViewTeam2Name);
+        TextView tvResult = convertView.findViewById(R.id.textViewResult);
 
-        ImageView imgTeam1 = (ImageView) convertView.findViewById(R.id.imageViewTeam1);
-        ImageView imgTeam2 = (ImageView) convertView.findViewById(R.id.imageViewTeam2);
+        final Button btnTeam1Odds = convertView.findViewById(R.id.buttonTeam1);
+        final Button btnTeam2Odds = convertView.findViewById(R.id.buttonTeam2);
+        final Button btnDrawOdds = convertView.findViewById(R.id.buttonTeamDraw);
+
+        ImageView imgTeam1 = convertView.findViewById(R.id.imageViewTeam1);
+        ImageView imgTeam2 = convertView.findViewById(R.id.imageViewTeam2);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
 
         tvTeam1Name.setText(team1Name);
         tvTeam2Name.setText(team2Name);
@@ -83,7 +90,6 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
         btnTeam1Odds.setText(win1odds);
         btnTeam2Odds.setText(win3odds);
         btnDrawOdds.setText(win2odds);
-
 
         try
         {
@@ -98,77 +104,81 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
         catch(IOException e) {}
 
 
-        btnTeam1Odds.setOnClickListener(new View.OnClickListener() {
+        final View finalConvertView = convertView;
+        btnTeam1Odds.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v)
+            {
                 final User currentUser = new User();
-
                 Query reference = FirebaseDatabase.getInstance().getReference().child("Users");
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                reference.addListenerForSingleValueEvent(new ValueEventListener()
+                {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(DataSnapshot dataSnapshot)
+                    {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
                             if(Double.parseDouble(snapshot.getKey())==currentUser.email.hashCode())
                             {
-
                                 String numberOfCoins = snapshot.child("coins").getValue().toString();
-                                if(Double.parseDouble(numberOfCoins)>=10){
-                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(String.valueOf(currentUser.getEmail().hashCode()));
-                                mDatabase.child("coins").setValue(String.valueOf(Double.parseDouble(numberOfCoins)-10));
 
-                                DatabaseReference mDatabaseBets = FirebaseDatabase.getInstance().getReference().child("Matches").child(league).child(matchId).child("bets");
-                                String coinsToWin = String.valueOf(10 * Double.parseDouble(btnTeam1Odds.getText().toString()));
-                                mDatabaseBets.push().setValue(new Bet(currentUser.getEmail(),"Team1",coinsToWin));
-
-
-                                }else if(Double.parseDouble(numberOfCoins)<=10)
-                                    {Toast.makeText(getContext(), "you don't have enough coins!",Toast.LENGTH_LONG);
-                                    Log.d("coins","not enough coins!");
-
-                                    }
-
-
+                                Intent windowPlaceBet = new Intent(mContext, MatchesPlaceBet.class);
+                                windowPlaceBet.putExtra("email",currentUser.getEmail());
+                                windowPlaceBet.putExtra("hashedEmail",String.valueOf(currentUser.getEmail().hashCode()));
+                                windowPlaceBet.putExtra("numberOfCoins",numberOfCoins);
+                                windowPlaceBet.putExtra("team1Odds",btnTeam1Odds.getText().toString());
+                                windowPlaceBet.putExtra("league",league);
+                                windowPlaceBet.putExtra("matchId",matchId);
+                                mContext.startActivity(windowPlaceBet);
                             }
                         }
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(DatabaseError databaseError)
+                    {
                         Toast.makeText(getContext(), databaseError.getMessage(),Toast.LENGTH_LONG);
                     }
                 });
-
-
-                btnTeam1Odds.setEnabled(false);
             }
-        });        btnTeam2Odds.setOnClickListener(new View.OnClickListener() {
+        });
+        btnTeam2Odds.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 final User currentUser = new User();
-
                 Query reference = FirebaseDatabase.getInstance().getReference().child("Users");
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                reference.addListenerForSingleValueEvent(new ValueEventListener()
+                {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(DataSnapshot dataSnapshot)
+                    {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
                             if(Double.parseDouble(snapshot.getKey())==currentUser.email.hashCode())
                             {
 
                                 String numberOfCoins = snapshot.child("coins").getValue().toString();
-                                if(Double.parseDouble(numberOfCoins)>=10){
-                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(String.valueOf(currentUser.getEmail().hashCode()));
-                                mDatabase.child("coins").setValue(String.valueOf(Double.parseDouble(numberOfCoins)-10));
 
-                                DatabaseReference mDatabaseBets = FirebaseDatabase.getInstance().getReference().child("Matches").child(league).child(matchId).child("bets");
-                                String coinsToWin = String.valueOf(10 * Double.parseDouble(btnTeam2Odds.getText().toString()));
-                                mDatabaseBets.push().setValue(new Bet(currentUser.getEmail(),"Team2",coinsToWin));
+                                  /*
+                                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(String.valueOf(currentUser.getEmail().hashCode()));
+                                    mDatabase.child("coins").setValue(String.valueOf(Double.parseDouble(numberOfCoins)-10));
 
-                                }else if(Double.parseDouble(numberOfCoins)<=10)
-                                    {Toast.makeText(getContext(), "you don't have enough coins!",Toast.LENGTH_LONG);
-                                    Log.d("coins","not enough coins!");
-                                    }
+                                    DatabaseReference mDatabaseBets = FirebaseDatabase.getInstance().getReference().child("Matches").child(league).child(matchId).child("bets");
+                                    String coinsToWin = String.valueOf(10 * Double.parseDouble(btnTeam2Odds.getText().toString()));
+                                    mDatabaseBets.push().setValue(new Bet(currentUser.getEmail(),"Team2",coinsToWin));
+                                  */
+                                    Intent windowPlaceBet = new Intent(mContext, MatchesPlaceBet.class);
+                                    windowPlaceBet.putExtra("email",currentUser.getEmail());
+                                    windowPlaceBet.putExtra("hashedEmail",String.valueOf(currentUser.getEmail().hashCode()));
+                                    windowPlaceBet.putExtra("numberOfCoins",numberOfCoins);
+                                    windowPlaceBet.putExtra("team2Odds",btnTeam2Odds.getText().toString());
+                                    windowPlaceBet.putExtra("league",league);
+                                    windowPlaceBet.putExtra("matchId",matchId);
+                                   // Toast.makeText(mContext,"bet placed",Toast.LENGTH_SHORT).show();
+                                    mContext.startActivity(windowPlaceBet);
 
 
                             }
@@ -176,55 +186,39 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(DatabaseError databaseError)
+                    {
                         Toast.makeText(getContext(), databaseError.getMessage(),Toast.LENGTH_LONG);
                     }
                 });
-
-
-
-
-
-
-
-                btnTeam2Odds.setEnabled(false);
             }
         });
 
-        btnDrawOdds.setOnClickListener(new View.OnClickListener() {
+        btnDrawOdds.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-               // Log.d("btnTeam1Odds","OnClickListener");
+            public void onClick(View v)
+            {
                 final User currentUser = new User();
-                Log.d("btnTeam1Odds",btnDrawOdds.getText().toString());
-                Log.d("txbTeam1Name",team1Name);
-              //  Toast.makeText(getContext(), "nazwa zespolu " + team1Name, Toast.LENGTH_SHORT).show();
-              //  Toast.makeText(getContext(), "ilosc coinów " + currentUser.coins, Toast.LENGTH_SHORT).show();
-
                 Query reference = FirebaseDatabase.getInstance().getReference().child("Users");
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                reference.addListenerForSingleValueEvent(new ValueEventListener()
+                {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
                             if(Double.parseDouble(snapshot.getKey())==currentUser.email.hashCode())
                             {
-
                                 String numberOfCoins = snapshot.child("coins").getValue().toString();
-                                if(Double.parseDouble(numberOfCoins)>=10)
-                                {
-                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(String.valueOf(currentUser.getEmail().hashCode()));
-                                mDatabase.child("coins").setValue(String.valueOf(Double.parseDouble(numberOfCoins)-10));
+                                Intent windowPlaceBet = new Intent(mContext, MatchesPlaceBet.class);
+                                windowPlaceBet.putExtra("email",currentUser.getEmail());
+                                windowPlaceBet.putExtra("hashedEmail",String.valueOf(currentUser.getEmail().hashCode()));
+                                windowPlaceBet.putExtra("numberOfCoins",numberOfCoins);
+                                windowPlaceBet.putExtra("teamDrawOdds",btnDrawOdds.getText().toString());
+                                windowPlaceBet.putExtra("league",league);
+                                windowPlaceBet.putExtra("matchId",matchId);
 
-                                DatabaseReference mDatabaseBets = FirebaseDatabase.getInstance().getReference().child("Matches").child(league).child(matchId).child("bets");
-                                String coinsToWin = String.valueOf(10 * Double.parseDouble(btnDrawOdds.getText().toString()));
-                                mDatabaseBets.push().setValue(new Bet(currentUser.getEmail(),"Draw",coinsToWin));
-                                }
-
-                                else if(Double.parseDouble(numberOfCoins)<=10)
-                                {
-                                Toast.makeText(getContext(), "you don't have enough coins!",Toast.LENGTH_LONG);
-                                }
+                                mContext.startActivity(windowPlaceBet);
 
 
                             }
@@ -232,12 +226,11 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(DatabaseError databaseError)
+                    {
                         Toast.makeText(getContext(), databaseError.getMessage(),Toast.LENGTH_LONG);
                     }
                 });
-
-                btnDrawOdds.setEnabled(false);
             }
         });
 
