@@ -158,17 +158,8 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
                         {
                             if(Double.parseDouble(snapshot.getKey())==currentUser.email.hashCode())
                             {
+                                    String numberOfCoins = snapshot.child("coins").getValue().toString();
 
-                                String numberOfCoins = snapshot.child("coins").getValue().toString();
-
-                                  /*
-                                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(String.valueOf(currentUser.getEmail().hashCode()));
-                                    mDatabase.child("coins").setValue(String.valueOf(Double.parseDouble(numberOfCoins)-10));
-
-                                    DatabaseReference mDatabaseBets = FirebaseDatabase.getInstance().getReference().child("Matches").child(league).child(matchId).child("bets");
-                                    String coinsToWin = String.valueOf(10 * Double.parseDouble(btnTeam2Odds.getText().toString()));
-                                    mDatabaseBets.push().setValue(new Bet(currentUser.getEmail(),"Team2",coinsToWin));
-                                  */
                                     Intent windowPlaceBet = new Intent(mContext, MatchesPlaceBet.class);
                                     windowPlaceBet.putExtra("email",currentUser.getEmail());
                                     windowPlaceBet.putExtra("hashedEmail",String.valueOf(currentUser.getEmail().hashCode()));
@@ -176,10 +167,7 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
                                     windowPlaceBet.putExtra("team2Odds",btnTeam2Odds.getText().toString());
                                     windowPlaceBet.putExtra("league",league);
                                     windowPlaceBet.putExtra("matchId",matchId);
-                                   // Toast.makeText(mContext,"bet placed",Toast.LENGTH_SHORT).show();
                                     mContext.startActivity(windowPlaceBet);
-
-
                             }
                         }
                     }

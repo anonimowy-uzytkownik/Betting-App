@@ -125,7 +125,7 @@ public class Match {
         team1Score = Integer.parseInt(result.substring(0,result.lastIndexOf(":")));
         team2Score = Integer.parseInt(result.substring(result.lastIndexOf(":")+1));
         if(team1Score>team2Score){return "Team1";}
-        else if(team1Score>team2Score){return "Team2";}
+        else if(team1Score<team2Score){return "Team2";}
         else{return "Draw";}
 
     }

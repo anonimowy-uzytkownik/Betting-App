@@ -28,16 +28,6 @@ public class MatchesPlaceBet extends Activity {
     EditText editTextBettedCoins;
     Button buttonPlaceBet;
 
-
-    /*
-     windowPlaceBet.putExtra("email",currentUser.getEmail());
-     windowPlaceBet.putExtra("hashedEmail",currentUser.getEmail().hashCode());
-     windowPlaceBet.putExtra("numberOfCoins",numberOfCoins);
-    windowPlaceBet.putExtra("team2Odds",btnTeam2Odds.getText().toString());
-       windowPlaceBet.putExtra("league",league);
-          windowPlaceBet.putExtra("matchId",matchId);
-     */
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +35,6 @@ public class MatchesPlaceBet extends Activity {
         setContentView(R.layout.window_place_bet);
         final String email = getIntent().getStringExtra("email");
         final String hashedEmail = getIntent().getStringExtra("hashedEmail");
-        //final int hashedEmail = Integer.parseInt(getIntent().getStringExtra("hashedEmail"));
         final String numberOfCoins = getIntent().getStringExtra("numberOfCoins");
         final String team2Odds = getIntent().getStringExtra("team2Odds");
         final String team1Odds = getIntent().getStringExtra("team1Odds");

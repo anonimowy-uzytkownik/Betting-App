@@ -1,6 +1,7 @@
 package com.example.praca_dyplomowa;
 
 import android.app.FragmentManager;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -62,21 +63,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
-/*
-        createNotificationChannel();
-        NotificationService notificationService=new NotificationService();
-        notificationService.initializeTimerTask();
-*/
-
-
-
-
-        // NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-
-        //textViewDisplayNameNav.setText(currentUser.username);
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -91,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
         View headerView = navigationView.getHeaderView(0);
+
         final User currentUser = new User();
         final TextView textViewDisplayNameNav = headerView.findViewById(R.id.textViewDisplayNameNav);
         final TextView textViewCoinsNav = headerView.findViewById(R.id.textViewCoinsNav);
@@ -99,11 +87,6 @@ public class MainActivity extends AppCompatActivity {
         textViewDisplayNameNav.setText(currentUser.username);
 
         Query reference = FirebaseDatabase.getInstance().getReference().child("Users");
-
-
-        
-
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -113,15 +96,19 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("UserHash2", snapshot.getKey());
                         textViewDisplayNameNav.setText(snapshot.child("username").getValue().toString());
                         textViewCoinsNav.setText(snapshot.child("coins").getValue().toString() + " coins left!");
-                        try {
-                            if (snapshot.child("avatar").getValue() == null) {
+                        try
+                        {
+                            if (snapshot.child("avatar").getValue() == null)
+                            {
                                 return;
                             }
                             String linkToAvatar = snapshot.child("avatar").getValue().toString();
                             URL url = new URL(linkToAvatar);
-                           Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                             imageViewAvatarNav.setImageBitmap(image);
-                        } catch (IOException e) {
+                        } catch (IOException e)
+
+                        {
                             Log.e("image error", e.getMessage());
                         }
                     }
@@ -130,16 +117,13 @@ public class MainActivity extends AppCompatActivity {
 
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError)
+            {
 
             }
 
 
-        });
-
-
-
-
+        }); //wczytywanie obrazka, pieniedzy do nawigacji
 
         Query referenceNationsLeague = FirebaseDatabase.getInstance().getReference().child("Matches").child("NationsLeague");
         referenceNationsLeague.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -150,23 +134,22 @@ public class MainActivity extends AppCompatActivity {
                     String Status = String.valueOf(snapshot.child("status").getValue());
                     final String Result = String.valueOf(snapshot.child("result").getValue());
                     if(Status.equals("done")){
-                        Log.d("bety",snapshot.getKey());
-                       // Log.d("test",snapshot.child(snapshot.child("bets").getChildren().iterator().next()));
 
                         Query referenceNationsLeagueBets = FirebaseDatabase.getInstance().getReference().child("Matches").child("NationsLeague").child(snapshot.getKey()).child("bets");
                         Log.d("referencja",referenceNationsLeagueBets.toString());
                         referenceNationsLeagueBets.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                                for (final DataSnapshot snapshot : dataSnapshot.getChildren())
                                 {
                                     if(snapshot.child("email").getValue().toString().equals(currentUser.getEmail()))
                                     {
 
+                                        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(String.valueOf(currentUser.getEmail().hashCode()));
                                         if(Match.calculateResult(Result).equals(snapshot.child("betType").getValue().toString()))
                                         {
                                             snapshot.getRef().removeValue();
-                                            final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(String.valueOf(currentUser.getEmail().hashCode()));
+
                                             final String coinsToWin = snapshot.child("coinsToWin").getValue().toString();
                                             mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
@@ -174,10 +157,19 @@ public class MainActivity extends AppCompatActivity {
                                                     double currentCoins = Double.parseDouble(dataSnapshot.child("coins").getValue().toString());
                                                     double result = currentCoins + Double.parseDouble(coinsToWin);
                                                     DecimalFormat df = new DecimalFormat("0.00");
-                                                  //  System.out.println(df.format(result));
-                                                    // mDatabase.child("coins").setValue(String.format("%.2f",result));
-                                                   // Log.d("COINYYYYYY",String.valueOf(result));
                                                     mDatabase.child("coins").setValue(df.format(result));
+
+                                                    if(dataSnapshot.child("bets").child("wins").getValue()==null)
+                                                    {
+                                                        int wonBets = 0;
+                                                        mDatabase.child("bets").child("wins").setValue(wonBets+1);
+                                                    }
+                                                    else
+                                                    {
+                                                        int wonBets = Integer.parseInt(String.valueOf(dataSnapshot.child("bets").child("wins").getValue()));
+                                                        mDatabase.child("bets").child("wins").setValue(wonBets+1);
+                                                    }
+
                                                 }
 
                                                 @Override
@@ -185,17 +177,39 @@ public class MainActivity extends AppCompatActivity {
 
                                                 }
                                             });
-                                           // mDatabase.child("coins").setValue(currentUser.coins);
-                                           // mDatabase.child("coins").setValue(currentUser.coins);
-                                           // Log.d("coins",currentUser.coins);
-                                        }else
+                                        }
+                                        else
                                             {
-                                            snapshot.getRef().removeValue();
+                                                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                                                    {
+
+                                                        if(String.valueOf(dataSnapshot.child("bets").child("loses").getValue())==null)
+                                                        {
+                                                            int lostBets = 0;
+                                                            mDatabase.child("bets").child("loses").setValue(lostBets+1);
+                                                            // Log.d("current loses",String.valueOf(lostBets));
+                                                            snapshot.getRef().removeValue();
+                                                        }
+                                                        else
+                                                        {
+                                                            int lostBets = Integer.parseInt(String.valueOf(dataSnapshot.child("bets").child("loses").getValue()));
+                                                            // Log.d("current loses",String.valueOf(lostBets));
+
+                                                            mDatabase.child("bets").child("loses").setValue(lostBets+1);
+                                                            snapshot.getRef().removeValue();
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                            }
                                     }
-                                        //Log.d("betType",snapshot.child("betType").getValue().toString());
-                                    }
-                                  //  Log.d("email",snapshot.getValue().toString());
-                                   // Log.d("betType",snapshot.child("betType").toString());
                                 }
 
                             }
@@ -205,21 +219,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e("DataSnapshot",databaseError.getMessage());
                             }
                         });
-
-                     //   Iterable<DataSnapshot> bets = snapshot.getChildren();
-                     //   Log.d("bety",bets.iterator().next().child("email").toString());
-                       // Log.d("bety",bets.iterator().next().child("betType").getValue().toString());
-                        //if(String.valueOf(snapshot.child("bets").child().)
-                       // Log.d("klucz bets",String.valueOf(snapshot.child("bets")));
                     }
-                        Log.d("statues",Status);                                            //if game is done and IF PLAYER BETTED
-                        Match.calculateResult(snapshot.child("result").getValue().toString()); //zwraca kto wygrał jeżeli gra się zakończyła
-
-
-                        Log.d("statues",String.valueOf(Status.equals("done")));
-
-                    //String MatchId = String.valueOf(snapshot.getKey());
-
                 }
 
             }
@@ -228,13 +228,219 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("DataSnapshot",databaseError.getMessage());
             }
-        });
+        }); //sprawdzanie betów użytkownika
+        Query referenceChampionsLeague = FirebaseDatabase.getInstance().getReference().child("Matches").child("ChampionsLeague");
+        referenceChampionsLeague.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    String Status = String.valueOf(snapshot.child("status").getValue());
+                    final String Result = String.valueOf(snapshot.child("result").getValue());
+                    if(Status.equals("done")){
 
+                        Query referenceChampionsLeagueBets = FirebaseDatabase.getInstance().getReference().child("Matches").child("ChampionsLeague").child(snapshot.getKey()).child("bets");
+                        Log.d("referencja",referenceChampionsLeagueBets.toString());
+                        referenceChampionsLeagueBets.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (final DataSnapshot snapshot : dataSnapshot.getChildren())
+                                {
+                                    if(snapshot.child("email").getValue().toString().equals(currentUser.getEmail()))
+                                    {
+                                        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(String.valueOf(currentUser.getEmail().hashCode()));
+                                        if(Match.calculateResult(Result).equals(snapshot.child("betType").getValue().toString()))
+                                        {
+                                            snapshot.getRef().removeValue();
+
+                                            final String coinsToWin = snapshot.child("coinsToWin").getValue().toString();
+                                            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    double currentCoins = Double.parseDouble(dataSnapshot.child("coins").getValue().toString());
+                                                    double result = currentCoins + Double.parseDouble(coinsToWin);
+                                                    DecimalFormat df = new DecimalFormat("0.00");
+                                                    mDatabase.child("coins").setValue(df.format(result));
+
+                                                    if(dataSnapshot.child("bets").child("wins").getValue()==null)
+                                                    {
+                                                        int wonBets = 0;
+                                                        mDatabase.child("bets").child("wins").setValue(wonBets+1);
+                                                    }
+                                                    else
+                                                    {
+                                                        int wonBets = Integer.parseInt(String.valueOf(dataSnapshot.child("bets").child("wins").getValue()));
+                                                        mDatabase.child("bets").child("wins").setValue(wonBets+1);
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                }
+                                            });
+                                        }else
+                                            {
+                                                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                                                    {
+
+                                                        if(String.valueOf(dataSnapshot.child("bets").child("loses").getValue())==null)
+                                                        {
+                                                            int lostBets = 0;
+                                                            mDatabase.child("bets").child("loses").setValue(lostBets+1);
+                                                            // Log.d("current loses",String.valueOf(lostBets));
+                                                            snapshot.getRef().removeValue();
+                                                        }
+                                                        else
+                                                        {
+                                                            int lostBets = Integer.parseInt(String.valueOf(dataSnapshot.child("bets").child("loses").getValue()));
+                                                            // Log.d("current loses",String.valueOf(lostBets));
+
+                                                            mDatabase.child("bets").child("loses").setValue(lostBets+1);
+                                                            snapshot.getRef().removeValue();
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                    }
+                                    }
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.e("DataSnapshot",databaseError.getMessage());
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("DataSnapshot",databaseError.getMessage());
+            }
+        }); //sprawdzanie betów użytkownika
+        Query referenceEuropaLeague = FirebaseDatabase.getInstance().getReference().child("Matches").child("EuropaLeague");
+        referenceEuropaLeague.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    String Status = String.valueOf(snapshot.child("status").getValue());
+                    final String Result = String.valueOf(snapshot.child("result").getValue());
+                    if(Status.equals("done")){
+
+                        Query referenceEuropaLeagueBets = FirebaseDatabase.getInstance().getReference().child("Matches").child("EuropaLeague").child(snapshot.getKey()).child("bets");
+                        Log.d("referencja",referenceEuropaLeagueBets.toString());
+                        referenceEuropaLeagueBets.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(final DataSnapshot dataSnapshot) {
+                                for (final DataSnapshot snapshot : dataSnapshot.getChildren())
+                                {
+                                    if(snapshot.child("email").getValue().toString().equals(currentUser.getEmail()))
+                                    {
+                                        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(String.valueOf(currentUser.getEmail().hashCode()));
+
+                                        if(Match.calculateResult(Result).equals(snapshot.child("betType").getValue().toString()))
+                                        {
+                                            snapshot.getRef().removeValue();
+                                           final String coinsToWin = snapshot.child("coinsToWin").getValue().toString();
+                                            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                                                    double currentCoins = Double.parseDouble(dataSnapshot.child("coins").getValue().toString());
+                                                    double result = currentCoins + Double.parseDouble(coinsToWin);
+                                                    DecimalFormat df = new DecimalFormat("0.00");
+                                                    mDatabase.child("coins").setValue(df.format(result));
+
+                                                    if(dataSnapshot.child("bets").child("wins").getValue()==null)
+                                                    {
+                                                        int wonBets = 0;
+                                                        mDatabase.child("bets").child("wins").setValue(wonBets+1);
+                                                    }
+                                                    else
+                                                    {
+                                                        int wonBets = Integer.parseInt(String.valueOf(dataSnapshot.child("bets").child("wins").getValue()));
+                                                        mDatabase.child("bets").child("wins").setValue(wonBets+1);
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+
+                                                }
+                                            });
+                                        }
+                                        else
+                                            {
+                                                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                                                    {
+
+                                                        if(String.valueOf(dataSnapshot.child("bets").child("loses").getValue())==null)
+                                                        {
+                                                            int lostBets = 0;
+                                                            mDatabase.child("bets").child("loses").setValue(lostBets+1);
+                                                           // Log.d("current loses",String.valueOf(lostBets));
+                                                            snapshot.getRef().removeValue();
+                                                        }
+                                                        else
+                                                        {
+                                                            int lostBets = Integer.parseInt(String.valueOf(dataSnapshot.child("bets").child("loses").getValue()));
+                                                           // Log.d("current loses",String.valueOf(lostBets));
+
+                                                            mDatabase.child("bets").child("loses").setValue(lostBets+1);
+                                                            snapshot.getRef().removeValue();
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                    }
+                                    }
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.e("DataSnapshot",databaseError.getMessage());
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("DataSnapshot",databaseError.getMessage());
+            }
+        }); //sprawdzanie betów użytkownika
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference referenceNotifications =  firebaseDatabase.getReference().child("Matches").child("NationsLeague");
+        DatabaseReference referenceNotificationsNationsLeague =  firebaseDatabase.getReference().child("Matches").child("NationsLeague");
+        DatabaseReference referenceNotificationsChampionsLeague =  firebaseDatabase.getReference().child("Matches").child("ChampionsLeague");
+        DatabaseReference referenceNotificationsEuropaLeague =  firebaseDatabase.getReference().child("Matches").child("EuropaLeague");
 
-        referenceNotifications.addChildEventListener(new ChildEventListener() {
+        referenceNotificationsNationsLeague.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
@@ -243,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                if(String.valueOf(snapshot.child("status").getValue()).equals("done"))      //email z betu znika zanim sie do niego dostaje
+                if(String.valueOf(snapshot.child("status").getValue()).equals("done"))
                 {
 
                     Intent activityMatches = new Intent(getApplicationContext(),MainActivity.class);
@@ -256,21 +462,19 @@ public class MainActivity extends AppCompatActivity {
                     final NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
                             .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
                             .setContentTitle("test")
-                            .setContentText(snapshot.child("team1Name").getValue().toString()+"vs"+snapshot.child("team2Name").getValue().toString()+"has finished!")
+                            .setContentText(snapshot.child("team1Name").getValue().toString()+" vs "+snapshot.child("team2Name").getValue().toString()+" has finished!")
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                            .setContentIntent(resultPendingIntent);
+                            .setContentIntent(resultPendingIntent)
+                            .setAutoCancel(true);;
 
 
-                    //  builder.build();
-
-                    Log.d("snapshotValue","works");
-                    Query referenceNationsLeagueBets = FirebaseDatabase.getInstance().getReference().child("Matches").child("NationsLeague").child(snapshot.getKey()).child("bets");
+                    Query referenceNationsLeagueBets = FirebaseDatabase.getInstance().getReference().child("Matches").child("NationsLeague").child(snapshot.getKey()).child("bets"); //error
 
                     referenceNationsLeagueBets.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                         {
-                            Log.d("snapshotValue",dataSnapshot.getValue().toString());
+                           // Log.d("snapshotValue",dataSnapshot.getValue().toString());
                             for (DataSnapshot snapshot : dataSnapshot.getChildren())
                             {
                                 Log.d("snapshotValue",String.valueOf(snapshot.child("email").getValue()));
@@ -285,19 +489,157 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
 
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        referenceNotificationsChampionsLeague.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                if(String.valueOf(snapshot.child("status").getValue()).equals("done"))
+                {
+
+                    Intent activityMatches = new Intent(getApplicationContext(),MainActivity.class);
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                    stackBuilder.addParentStack(MainActivity.class);
+                    stackBuilder.addNextIntent(activityMatches);
+                    PendingIntent resultPendingIntent =
+                            stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    final NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
+                            .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                            .setContentTitle("test")
+                            .setContentText(snapshot.child("team1Name").getValue().toString()+" vs "+snapshot.child("team2Name").getValue().toString()+" has finished!")
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setContentIntent(resultPendingIntent)
+                            .setAutoCancel(true);
 
 
-                           /*
-                            Log.d("snapshotValue",String.valueOf(snapshot.child("")));
-                            Log.d("emailValue",currentUser.getEmail());
-                            if (String.valueOf(snapshot.child("email").getValue()).equals(currentUser.getEmail()))
+                    Query referenceChampionsLeagueBets = FirebaseDatabase.getInstance().getReference().child("Matches").child("ChampionsLeague").child(snapshot.getKey()).child("bets");
+
+                    referenceChampionsLeagueBets.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                        {
+                           // Log.d("snapshotValue",String.valueOf(dataSnapshot.getValue()));
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren())
                             {
-                                NotificationManager notificationManager = (NotificationManager)getSystemService
-                                        (
-                                        Context.NOTIFICATION_SERVICE
-                                ) ;
-                                notificationManager.notify(0,builder.build());
-                            }*/
+                                Log.d("snapshotValue",String.valueOf(snapshot.child("email").getValue()));
+                                Log.d("emailValue",currentUser.getEmail());
+                                if (String.valueOf(snapshot.child("email").getValue()).equals(currentUser.getEmail()))
+                                {
+                                    NotificationManager notificationManager = (NotificationManager)getSystemService
+                                            (
+                                                    Context.NOTIFICATION_SERVICE
+                                            ) ;
+                                    notificationManager.notify(0,builder.build());
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        referenceNotificationsEuropaLeague.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                if(String.valueOf(snapshot.child("status").getValue()).equals("done"))
+                {
+
+                    Intent activityMatches = new Intent(getApplicationContext(),MainActivity.class);
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                    stackBuilder.addParentStack(MainActivity.class);
+                    stackBuilder.addNextIntent(activityMatches);
+                    PendingIntent resultPendingIntent =
+                            stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    final NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
+                            .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                            .setContentTitle("test")
+                            .setContentText(snapshot.child("team1Name").getValue().toString()+" vs "+snapshot.child("team2Name").getValue().toString()+" has finished!")
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setContentIntent(resultPendingIntent)
+                            .setAutoCancel(true);
+
+
+
+                    Query referenceEuropaLeagueBets = FirebaseDatabase.getInstance().getReference().child("Matches").child("EuropaLeague").child(snapshot.getKey()).child("bets");
+
+                    referenceEuropaLeagueBets.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                        {
+                          //  Log.d("snapshotValue",dataSnapshot.getValue().toString());
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                            {
+                                Log.d("snapshotValue",String.valueOf(snapshot.child("email").getValue()));
+                                Log.d("emailValue",currentUser.getEmail());
+                                if (String.valueOf(snapshot.child("email").getValue()).equals(currentUser.getEmail()))
+                                {
+                                    NotificationManager notificationManager = (NotificationManager)getSystemService
+                                            (
+                                                    Context.NOTIFICATION_SERVICE
+                                            ) ;
+
+                                    notificationManager.notify(0,builder.build());
+                                }
+                            }
 
                         }
 
@@ -328,69 +670,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-        /*
-        referenceNotifications.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                {
-                 if(String.valueOf(snapshot.child("status").getValue()).equals("done"))
-                 {
-                     Intent activityMatches = new Intent(getApplicationContext(),MainActivity.class);
-                     TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
-                     stackBuilder.addParentStack(MainActivity.class);
-                     stackBuilder.addNextIntent(activityMatches);
-                     PendingIntent resultPendingIntent =
-                             stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                     NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
-                             .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-                             .setContentTitle("test")
-                             .setContentText(snapshot.child("team1Name").getValue().toString()+"vs"+snapshot.child("team2Name").getValue().toString()+"has finished!")
-                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                             .setContentIntent(resultPendingIntent);
-
-
-                     //  builder.build();
-                     NotificationManager notificationManager = (NotificationManager)getSystemService(
-                             Context.NOTIFICATION_SERVICE
-                     ) ;
-                     notificationManager.notify(0,builder.build());
-                 }
-                }
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-*/
-        /*
-        Intent activityMatches = new Intent(getApplicationContext(),MainActivity.class);
-                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
-                stackBuilder.addParentStack(MainActivity.class);
-                stackBuilder.addNextIntent(activityMatches);
-                PendingIntent resultPendingIntent =
-                        stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
-                            .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-                            .setContentTitle("test")
-                            .setContentText(snapshot.getValue().toString())
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                            .setContentIntent(resultPendingIntent);
-
-
-                    //  builder.build();
-                    NotificationManager notificationManager = (NotificationManager)getSystemService(
-                            Context.NOTIFICATION_SERVICE
-                    ) ;
-                    notificationManager.notify(0,builder.build());
-}
-         */
 
 
 
