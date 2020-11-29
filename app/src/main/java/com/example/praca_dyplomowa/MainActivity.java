@@ -159,15 +159,21 @@ public class MainActivity extends AppCompatActivity {
                                                     DecimalFormat df = new DecimalFormat("0.00");
                                                     mDatabase.child("coins").setValue(df.format(result));
 
+
                                                     if(dataSnapshot.child("bets").child("wins").getValue()==null)
                                                     {
                                                         int wonBets = 0;
+                                                        double wonCoins = Double.parseDouble(String.valueOf(snapshot.child("coinsToWin").getValue()));
                                                         mDatabase.child("bets").child("wins").setValue(wonBets+1);
+                                                        mDatabase.child("bets").child("wonCoins").setValue(df.format(wonCoins));
                                                     }
                                                     else
                                                     {
+                                                        Double currentWonCoins = Double.parseDouble(String.valueOf(dataSnapshot.child("bets").child("wonCoins").getValue()));
                                                         int wonBets = Integer.parseInt(String.valueOf(dataSnapshot.child("bets").child("wins").getValue()));
+                                                        double wonCoins = Double.parseDouble(String.valueOf(snapshot.child("coinsToWin").getValue()));
                                                         mDatabase.child("bets").child("wins").setValue(wonBets+1);
+                                                        mDatabase.child("bets").child("wonCoins").setValue(currentWonCoins+wonCoins);
                                                     }
 
                                                 }
@@ -185,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                                                     {
 
-                                                        if(String.valueOf(dataSnapshot.child("bets").child("loses").getValue())==null)
+                                                        if(dataSnapshot.child("bets").child("loses").getValue()==null)
                                                         {
                                                             int lostBets = 0;
                                                             mDatabase.child("bets").child("loses").setValue(lostBets+1);
@@ -265,12 +271,17 @@ public class MainActivity extends AppCompatActivity {
                                                     if(dataSnapshot.child("bets").child("wins").getValue()==null)
                                                     {
                                                         int wonBets = 0;
+                                                        double wonCoins = Double.parseDouble(String.valueOf(snapshot.child("coinsToWin").getValue()));
                                                         mDatabase.child("bets").child("wins").setValue(wonBets+1);
+                                                        mDatabase.child("bets").child("wonCoins").setValue(df.format(wonCoins));
                                                     }
                                                     else
                                                     {
+                                                        Double currentWonCoins = Double.parseDouble(String.valueOf(dataSnapshot.child("bets").child("wonCoins").getValue()));
                                                         int wonBets = Integer.parseInt(String.valueOf(dataSnapshot.child("bets").child("wins").getValue()));
+                                                        double wonCoins = Double.parseDouble(String.valueOf(snapshot.child("coinsToWin").getValue()));
                                                         mDatabase.child("bets").child("wins").setValue(wonBets+1);
+                                                        mDatabase.child("bets").child("wonCoins").setValue(currentWonCoins+wonCoins);
                                                     }
                                                 }
 
@@ -286,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                                                     {
 
-                                                        if(String.valueOf(dataSnapshot.child("bets").child("loses").getValue())==null)
+                                                        if(dataSnapshot.child("bets").child("loses").getValue()==null)
                                                         {
                                                             int lostBets = 0;
                                                             mDatabase.child("bets").child("loses").setValue(lostBets+1);
@@ -368,12 +379,17 @@ public class MainActivity extends AppCompatActivity {
                                                     if(dataSnapshot.child("bets").child("wins").getValue()==null)
                                                     {
                                                         int wonBets = 0;
+                                                        double wonCoins = Double.parseDouble(String.valueOf(snapshot.child("coinsToWin").getValue()));
                                                         mDatabase.child("bets").child("wins").setValue(wonBets+1);
+                                                        mDatabase.child("bets").child("wonCoins").setValue(df.format(wonCoins));
                                                     }
                                                     else
                                                     {
+                                                        Double currentWonCoins = Double.parseDouble(String.valueOf(dataSnapshot.child("bets").child("wonCoins").getValue()));
                                                         int wonBets = Integer.parseInt(String.valueOf(dataSnapshot.child("bets").child("wins").getValue()));
+                                                        double wonCoins = Double.parseDouble(String.valueOf(snapshot.child("coinsToWin").getValue()));
                                                         mDatabase.child("bets").child("wins").setValue(wonBets+1);
+                                                        mDatabase.child("bets").child("wonCoins").setValue(currentWonCoins+wonCoins);
                                                     }
                                                 }
 
@@ -390,17 +406,18 @@ public class MainActivity extends AppCompatActivity {
                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                                                     {
 
-                                                        if(String.valueOf(dataSnapshot.child("bets").child("loses").getValue())==null)
+                                                        if(dataSnapshot.child("bets").child("loses").getValue()==null)
                                                         {
                                                             int lostBets = 0;
                                                             mDatabase.child("bets").child("loses").setValue(lostBets+1);
                                                            // Log.d("current loses",String.valueOf(lostBets));
-                                                            snapshot.getRef().removeValue();
+                                                           // snapshot.getRef().removeValue();
                                                         }
                                                         else
                                                         {
+
                                                             int lostBets = Integer.parseInt(String.valueOf(dataSnapshot.child("bets").child("loses").getValue()));
-                                                           // Log.d("current loses",String.valueOf(lostBets));
+                                                            Log.d("current loses",String.valueOf(lostBets));
 
                                                             mDatabase.child("bets").child("loses").setValue(lostBets+1);
                                                             snapshot.getRef().removeValue();
