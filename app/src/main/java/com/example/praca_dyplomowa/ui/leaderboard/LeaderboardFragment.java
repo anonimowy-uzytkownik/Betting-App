@@ -87,49 +87,6 @@ public class LeaderboardFragment extends Fragment {
                     mDatabase.child(snapshot.getKey()).child("loses").setValue(snapshot.child("bets").child("loses").getValue());
                     mDatabase.child(snapshot.getKey()).child("displayName").setValue(snapshot.child("username").getValue());
 
-                    /*
-                   // if(!(snapshot.child("bets").child("wonCoins").getValue()==null))
-                    String firstPlayer = String.valueOf(textViewFirstPlayer.getText());
-                    String secondPlayer = String.valueOf(textViewSecondPlayer.getText());
-                    String thirdPlayer = String.valueOf(textViewThirdPlayer.getText());
-
-                    if(firstPlayer.isEmpty())
-                    {
-                        textViewFirstPlayer.setText(String.valueOf(snapshot.child("bets").child("wonCoins").getValue()));
-                        firstPlayer=String.valueOf(textViewFirstPlayer.getText());
-                    }
-
-                    if(secondPlayer.isEmpty())
-                    {
-                        textViewSecondPlayer.setText(String.valueOf(snapshot.child("bets").child("wonCoins").getValue()));
-                        secondPlayer=String.valueOf(textViewSecondPlayer.getText());
-                    }
-
-                    if(thirdPlayer.isEmpty())
-                    {
-                        textViewThirdPlayer.setText(String.valueOf(snapshot.child("bets").child("wonCoins").getValue()));
-                        thirdPlayer=String.valueOf(textViewThirdPlayer.getText());
-                    }
-
-                     if(Double.parseDouble(String.valueOf(snapshot.child("bets").child("wonCoins").getValue()))>Double.parseDouble(firstPlayer))
-                     {
-                         textViewFirstPlayer.setText(String.valueOf(snapshot.child("bets").child("wonCoins").getValue()));
-                         return;
-                     }
-
-                     if(Double.parseDouble(String.valueOf(snapshot.child("bets").child("wonCoins").getValue()))>Double.parseDouble(secondPlayer))
-                     {
-                         textViewSecondPlayer.setText(String.valueOf(snapshot.child("bets").child("wonCoins").getValue()));
-                         return;
-                     }
-                     if(Double.parseDouble(String.valueOf(snapshot.child("bets").child("wonCoins").getValue()))>Double.parseDouble(thirdPlayer))
-                     {
-                         textViewThirdPlayer.setText(String.valueOf(snapshot.child("bets").child("wonCoins").getValue()));
-                         return;
-                     }
-
-*/
-
                      Log.d("wonCoins",String.valueOf(snapshot.child("bets").child("wonCoins").getValue()));
 
                 }

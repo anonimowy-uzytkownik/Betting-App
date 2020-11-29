@@ -57,11 +57,11 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
     public View getView(final int position, @Nullable  View convertView, @NonNull final ViewGroup parent)
     {
         final String team1Name = getItem(position).getTeam1Name();
-        String team2Name= getItem(position).getTeam2Name();
+        final String team2Name= getItem(position).getTeam2Name();
         String win1odds= getItem(position).getWin1odds();
         String win2odds= getItem(position).getWin2odds();
         String win3odds= getItem(position).getWin3odds();
-        String result= getItem(position).getResult();
+        final String result= getItem(position).getResult();
         String image1= getItem(position).getImage1();
         String image2= getItem(position).getImage2();
         final String league = getItem(position).getLeague();
@@ -129,6 +129,9 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
                                 windowPlaceBet.putExtra("team1Odds",btnTeam1Odds.getText().toString());
                                 windowPlaceBet.putExtra("league",league);
                                 windowPlaceBet.putExtra("matchId",matchId);
+                                windowPlaceBet.putExtra("team1Name",team1Name);
+                                windowPlaceBet.putExtra("team2Name",team2Name);
+                                windowPlaceBet.putExtra("result",result);
                                 mContext.startActivity(windowPlaceBet);
                             }
                         }
@@ -167,6 +170,9 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
                                     windowPlaceBet.putExtra("team2Odds",btnTeam2Odds.getText().toString());
                                     windowPlaceBet.putExtra("league",league);
                                     windowPlaceBet.putExtra("matchId",matchId);
+                                    windowPlaceBet.putExtra("team1Name",team1Name);
+                                    windowPlaceBet.putExtra("team2Name",team2Name);
+                                    windowPlaceBet.putExtra("result",result);
                                     mContext.startActivity(windowPlaceBet);
                             }
                         }
@@ -204,6 +210,9 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
                                 windowPlaceBet.putExtra("teamDrawOdds",btnDrawOdds.getText().toString());
                                 windowPlaceBet.putExtra("league",league);
                                 windowPlaceBet.putExtra("matchId",matchId);
+                                windowPlaceBet.putExtra("team1Name",team1Name);
+                                windowPlaceBet.putExtra("team2Name",team2Name);
+                                windowPlaceBet.putExtra("result",result);
 
                                 mContext.startActivity(windowPlaceBet);
 

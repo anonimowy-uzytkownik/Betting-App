@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.praca_dyplomowa.Bet;
+import com.example.praca_dyplomowa.BetFinished;
 import com.example.praca_dyplomowa.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,8 +42,9 @@ public class MatchesPlaceBet extends Activity {
         final String teamDrawOdds = getIntent().getStringExtra("teamDrawOdds");
         final String league = getIntent().getStringExtra("league");
         final String matchId = getIntent().getStringExtra("matchId");
-
-
+        final String team1Name = getIntent().getStringExtra("team1Name");
+        final String team2Name = getIntent().getStringExtra("team2Name");
+        final String result = getIntent().getStringExtra("result");
 
         buttonPlaceBet=(Button)findViewById(R.id.buttonPlaceBet);
         editTextBettedCoins= findViewById(R.id.editTextBettedCoins);
@@ -75,6 +77,8 @@ public class MatchesPlaceBet extends Activity {
                 }
 
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(String.valueOf(hashedEmail));
+                DatabaseReference mDatabaseBettingHistory = FirebaseDatabase.getInstance().getReference("BettingHistory").child(String.valueOf(hashedEmail));
+
                 mDatabase.child("coins").setValue(String.valueOf(Double.parseDouble(numberOfCoins)-coinsToBet));
                 DatabaseReference mDatabaseBets = FirebaseDatabase.getInstance().getReference().child("Matches").child(league).child(matchId).child("bets");
 
@@ -94,7 +98,7 @@ public class MatchesPlaceBet extends Activity {
                     String coinsToWin = String.valueOf(coinsToBet * Double.parseDouble(teamDrawOdds));
                     mDatabaseBets.push().setValue(new Bet(email,"Draw",coinsToWin));
                 }
-
+                mDatabaseBettingHistory.push().setValue(new BetFinished(String.valueOf(team1Name),String.valueOf(team2Name),String.valueOf(result),String.valueOf(coinsToBet)));
                 Toast.makeText(getApplicationContext(),"bet placed",Toast.LENGTH_SHORT).show();
                 finish();
             }

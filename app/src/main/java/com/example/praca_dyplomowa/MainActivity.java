@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_matches,R.id.nav_profile,R.id.nav_notifications,R.id.nav_scores,R.id.nav_settings,R.id.nav_leaderboard,R.id.nav_chat)
+                R.id.nav_matches,R.id.nav_profile,R.id.nav_notifications,R.id.nav_scores,R.id.nav_settings,R.id.nav_leaderboard,R.id.nav_chat,R.id.nav_bets)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -133,6 +133,9 @@ public class MainActivity extends AppCompatActivity {
                 {
                     String Status = String.valueOf(snapshot.child("status").getValue());
                     final String Result = String.valueOf(snapshot.child("result").getValue());
+                    final String team1Name = String.valueOf(snapshot.child("team1Name").getValue());
+                    final String team2Name = String.valueOf(snapshot.child("team2Name").getValue());
+
                     if(Status.equals("done")){
 
                         Query referenceNationsLeagueBets = FirebaseDatabase.getInstance().getReference().child("Matches").child("NationsLeague").child(snapshot.getKey()).child("bets");
@@ -175,6 +178,13 @@ public class MainActivity extends AppCompatActivity {
                                                         mDatabase.child("bets").child("wins").setValue(wonBets+1);
                                                         mDatabase.child("bets").child("wonCoins").setValue(currentWonCoins+wonCoins);
                                                     }
+
+                                                    Log.d("Before adding","before adding");
+                                                    String hashedEmail = String.valueOf(String.valueOf(snapshot.child("email").getValue()).hashCode());
+                                                    DatabaseReference mDatabaseBettingHistory = FirebaseDatabase.getInstance().getReference("BettingHistory").child(hashedEmail);
+                                                    mDatabaseBettingHistory.push().setValue(new BetFinished(String.valueOf(team1Name),String.valueOf(team2Name),String.valueOf(Result)
+                                                            ,String.valueOf(Double.parseDouble(String.valueOf(snapshot.child("coinsToWin").getValue()))),true));
+                                                    Log.d("After adding","after adding");
 
                                                 }
 
@@ -243,6 +253,9 @@ public class MainActivity extends AppCompatActivity {
                 {
                     String Status = String.valueOf(snapshot.child("status").getValue());
                     final String Result = String.valueOf(snapshot.child("result").getValue());
+                    final String team1Name = String.valueOf(snapshot.child("team1Name").getValue());
+                    final String team2Name = String.valueOf(snapshot.child("team2Name").getValue());
+
                     if(Status.equals("done")){
 
                         Query referenceChampionsLeagueBets = FirebaseDatabase.getInstance().getReference().child("Matches").child("ChampionsLeague").child(snapshot.getKey()).child("bets");
@@ -282,7 +295,13 @@ public class MainActivity extends AppCompatActivity {
                                                         double wonCoins = Double.parseDouble(String.valueOf(snapshot.child("coinsToWin").getValue()));
                                                         mDatabase.child("bets").child("wins").setValue(wonBets+1);
                                                         mDatabase.child("bets").child("wonCoins").setValue(currentWonCoins+wonCoins);
+
                                                     }
+                                                    String hashedEmail = String.valueOf(String.valueOf(snapshot.child("email").getValue()).hashCode());
+                                                    DatabaseReference mDatabaseBettingHistory = FirebaseDatabase.getInstance().getReference("BettingHistory").child(hashedEmail);
+                                                    mDatabaseBettingHistory.push().setValue(new BetFinished(String.valueOf(team1Name),String.valueOf(team2Name),String.valueOf(Result)
+                                                            ,String.valueOf(Double.parseDouble(String.valueOf(snapshot.child("coinsToWin").getValue()))),true));
+
                                                 }
 
                                                 @Override
@@ -349,6 +368,9 @@ public class MainActivity extends AppCompatActivity {
                 {
                     String Status = String.valueOf(snapshot.child("status").getValue());
                     final String Result = String.valueOf(snapshot.child("result").getValue());
+                    final String team1Name = String.valueOf(snapshot.child("team1Name").getValue());
+                    final String team2Name = String.valueOf(snapshot.child("team2Name").getValue());
+
                     if(Status.equals("done")){
 
                         Query referenceEuropaLeagueBets = FirebaseDatabase.getInstance().getReference().child("Matches").child("EuropaLeague").child(snapshot.getKey()).child("bets");
@@ -391,6 +413,12 @@ public class MainActivity extends AppCompatActivity {
                                                         mDatabase.child("bets").child("wins").setValue(wonBets+1);
                                                         mDatabase.child("bets").child("wonCoins").setValue(currentWonCoins+wonCoins);
                                                     }
+
+                                                    String hashedEmail = String.valueOf(String.valueOf(snapshot.child("email").getValue()).hashCode());
+                                                    DatabaseReference mDatabaseBettingHistory = FirebaseDatabase.getInstance().getReference("BettingHistory").child(hashedEmail);
+                                                    mDatabaseBettingHistory.push().setValue(new BetFinished(String.valueOf(team1Name),String.valueOf(team2Name),String.valueOf(Result)
+                                                            ,String.valueOf(Double.parseDouble(String.valueOf(snapshot.child("coinsToWin").getValue()))),true));
+
                                                 }
 
                                                 @Override
