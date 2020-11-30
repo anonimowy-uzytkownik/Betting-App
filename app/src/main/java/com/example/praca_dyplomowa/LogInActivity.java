@@ -34,7 +34,6 @@ public class LogInActivity extends AppCompatActivity {
         password= findViewById(R.id.password);
         btnSignUp =  findViewById(R.id.sign_up);
         btnSignIn =  findViewById(R.id.sign_in);
-        btnSignInWithGoogle =  findViewById(R.id.sign_in_gplus);
         progressBar = findViewById(R.id.progressBar);
         mFirebaseAuth = FirebaseAuth.getInstance();
         progressBar.setVisibility(View.INVISIBLE);
@@ -70,7 +69,6 @@ public class LogInActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                // authenticate the user
                 try{
                     mFirebaseAuth.signInWithEmailAndPassword(email,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -84,19 +82,15 @@ public class LogInActivity extends AppCompatActivity {
 
                             } else {
                                 Toast.makeText(LogInActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.INVISIBLE);
                             }
 
                         }
-                    }); }catch (Exception e){emailId.setText(e.getMessage().toString());}
+                    }); }catch (Exception e){emailId.setText(e.getMessage());}
             }
         });
 
-        btnSignInWithGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MatchesActivity.class));
-            }
-        });
+
     }
 
     @Override

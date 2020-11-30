@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#243665"
+    android:background="@color/colorSpanishGray"
     tools:context=".MainActivity">
-
 
     <EditText
         android:id="@+id/email"
@@ -18,7 +17,10 @@
         android:gravity="center"
         android:hint="e-mail"
         android:inputType="text"
-        android:text="@string/default_email" />
+        android:text="@string/default_email"
+        android:drawableStart="@drawable/ic_baseline_email_24"
+        android:drawableLeft="@drawable/ic_baseline_email_24"
+        android:paddingLeft="10dip"/>
 
     <EditText
         android:id="@+id/password"
@@ -29,8 +31,11 @@
         android:background="@drawable/edit_text_border"
         android:gravity="center"
         android:hint="password"
-        android:inputType="text"
-        android:text="@string/default_password" />
+        android:inputType="textPassword"
+        android:text="@string/default_password"
+        android:drawableStart="@drawable/ic_baseline_lock_24"
+        android:drawableLeft="@drawable/ic_baseline_lock_24"
+        android:paddingLeft="10dip"/>
 
 
     <Button
@@ -41,27 +46,20 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Sign in" />
+        android:text="Sign in"
+        android:background="@drawable/sign_in_custom_button"/>
+
 
     <Button
-        android:id="@+id/sign_in_gplus"
+        android:id="@+id/sign_up"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_below="@+id/sign_in"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Sign up with google" />
-
-    <Button
-        android:id="@+id/sign_up"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/sign_in_gplus"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="Sign up" />
+        android:text="Sign up"
+        android:background="@drawable/sign_up_custom_button"/>
 
     <ProgressBar
         android:id="@+id/progressBar"

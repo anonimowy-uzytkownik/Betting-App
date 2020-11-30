@@ -533,7 +533,6 @@ public class MainActivity extends AppCompatActivity {
                                     notificationManager.notify(0,builder.build());
                                 }
                             }
-
                         }
 
                         @Override
