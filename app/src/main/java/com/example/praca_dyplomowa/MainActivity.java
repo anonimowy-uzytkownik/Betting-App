@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.praca_dyplomowa.ui.bets.BetsFragment;
 import com.example.praca_dyplomowa.ui.matches.MatchesFragment;
 import com.example.praca_dyplomowa.ui.notifications.NotificationService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -497,17 +498,16 @@ public class MainActivity extends AppCompatActivity {
                 if(String.valueOf(snapshot.child("status").getValue()).equals("done"))
                 {
 
-                    Intent activityMatches = new Intent(getApplicationContext(),MainActivity.class);
+                    Intent activityBets = new Intent(getApplicationContext(), MainActivity.class);
                     TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
                     stackBuilder.addParentStack(MainActivity.class);
-                    stackBuilder.addNextIntent(activityMatches);
+                    stackBuilder.addNextIntent(activityBets);
                     PendingIntent resultPendingIntent =
                             stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     final NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
                             .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-                            .setContentTitle("test")
-                            .setContentText(snapshot.child("team1Name").getValue().toString()+" vs "+snapshot.child("team2Name").getValue().toString()+" has finished!")
+                            .setContentText("Game between "+ snapshot.child("team1Name").getValue().toString()+" and "+snapshot.child("team2Name").getValue().toString()+" just ended!")
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                             .setContentIntent(resultPendingIntent)
                             .setAutoCancel(true);;
@@ -572,17 +572,16 @@ public class MainActivity extends AppCompatActivity {
                 if(String.valueOf(snapshot.child("status").getValue()).equals("done"))
                 {
 
-                    Intent activityMatches = new Intent(getApplicationContext(),MainActivity.class);
+                    Intent activityBets = new Intent(getApplicationContext(), MainActivity.class);
                     TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
                     stackBuilder.addParentStack(MainActivity.class);
-                    stackBuilder.addNextIntent(activityMatches);
+                    stackBuilder.addNextIntent(activityBets);
                     PendingIntent resultPendingIntent =
                             stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     final NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
                             .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-                            .setContentTitle("test")
-                            .setContentText(snapshot.child("team1Name").getValue().toString()+" vs "+snapshot.child("team2Name").getValue().toString()+" has finished!")
+                            .setContentText("Game between "+ snapshot.child("team1Name").getValue().toString()+" and "+snapshot.child("team2Name").getValue().toString()+" just ended!")
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                             .setContentIntent(resultPendingIntent)
                             .setAutoCancel(true);
@@ -646,23 +645,28 @@ public class MainActivity extends AppCompatActivity {
 
                 if(String.valueOf(snapshot.child("status").getValue()).equals("done"))
                 {
+                   /*
+                    String result = Match.calculateResult(String.valueOf(snapshot.child("result").getValue()));
 
-                    Intent activityMatches = new Intent(getApplicationContext(),MainActivity.class);
+                    if(result=="Team1"){}
+                    else if (result=="Team2"){}
+                    else if (result=="Draw"){}
+                    */
+
+
+                    Intent activityBets = new Intent(getApplicationContext(), MainActivity.class);
                     TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
                     stackBuilder.addParentStack(MainActivity.class);
-                    stackBuilder.addNextIntent(activityMatches);
+                    stackBuilder.addNextIntent(activityBets);
                     PendingIntent resultPendingIntent =
                             stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     final NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
                             .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-                            .setContentTitle("test")
-                            .setContentText(snapshot.child("team1Name").getValue().toString()+" vs "+snapshot.child("team2Name").getValue().toString()+" has finished!")
+                            .setContentText("Game between "+ snapshot.child("team1Name").getValue().toString()+" and "+snapshot.child("team2Name").getValue().toString()+" just ended!")
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                             .setContentIntent(resultPendingIntent)
                             .setAutoCancel(true);
-
-
 
                     Query referenceEuropaLeagueBets = FirebaseDatabase.getInstance().getReference().child("Matches").child("EuropaLeague").child(snapshot.getKey()).child("bets");
 
