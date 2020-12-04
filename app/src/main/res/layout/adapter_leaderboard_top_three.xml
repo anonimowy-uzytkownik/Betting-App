@@ -1,38 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/cardview_dark_background">
 
     <TextView
-        android:id="@+id/textViewDisplayName"
+        android:id="@+id/textViewleaderboardRanking"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_height="40dp"
+
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorBlack"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/imageViewAvatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/textViewleaderboardRanking"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"/>
     <TextView
-        android:id="@+id/textViewCoinsWon"
-        android:layout_width="50dp"
+        android:id="@+id/textViewDisplayName"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_toRightOf="@id/textViewDisplayNameHint"
+        android:layout_below="@id/textViewleaderboardRanking"
+        android:textColor="@color/colorBlack"
+        />
+    <TextView
+        android:id="@+id/textViewDisplayNameHint"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:text="Username: "
+        android:layout_toRightOf="@id/imageViewAvatar"
+        android:layout_below="@id/textViewleaderboardRanking"
+        android:textColor="@color/colorBlack"/>
+
+    <TextView
+        android:id="@+id/textViewCoinsWonHint"
+        android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewDisplayName"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@id/imageViewAvatar"
+        android:textColor="@color/colorBlack"
+        android:text="Total winnings: "
+        />
+
+    <TextView
+        android:id="@+id/textViewCoinsWon"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/textViewDisplayName"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@id/textViewCoinsWonHint"
+        android:textColor="@color/colorBlack"/>
+
+    <TextView
+        android:id="@+id/textViewWinsHint"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_toRightOf="@id/imageViewAvatar"
+        android:layout_below="@id/textViewCoinsWon"
+        android:layout_centerHorizontal="true"
+        android:text="wins:"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewWins"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewCoinsWon"
-        android:layout_centerHorizontal="true"/>
+        android:layout_toRightOf="@id/textViewWinsHint"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorBlack"/>
+
     <TextView
-        android:id="@+id/textViewLoses"
+        android:id="@+id/textViewLosesHint"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewCoinsWon"
-        android:layout_toRightOf="@+id/textViewWins"
-        android:layout_centerHorizontal="true"/>
+        android:layout_toRightOf="@id/textViewWins"
+        android:layout_centerHorizontal="true"
+        android:text="loses:"
+        android:textColor="@color/colorBlack"
+        android:background="@drawable/textview_borders"/>
     <TextView
-        android:id="@+id/textViewleaderboardRanking"
-        android:layout_width="50dp"
+        android:id="@+id/textViewLoses"
+        android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_toRightOf="@+id/textViewLoses"
-        android:layout_centerHorizontal="true"/>
+        android:layout_below="@id/textViewCoinsWon"
+        android:layout_toRightOf="@+id/textViewLosesHint"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorBlack"/>
+
 
 </RelativeLayout>

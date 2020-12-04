@@ -2,6 +2,7 @@ package com.example.praca_dyplomowa;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
@@ -50,25 +51,21 @@ public class BetsAdapter extends ArrayAdapter<BetFinished> {
         TextView textViewTeam2Name =(TextView) convertView.findViewById(R.id.textViewTeam2Name);
         TextView textViewCoins =(TextView) convertView.findViewById(R.id.textViewCoins);
 
-        //textViewCoins.setTextColor(Color.RED);
         textViewTeam1Name.setText(team1Name);
         textViewTeam2Name.setText(team2Name);
 
-      //  Log.d("coinswon",coinsWon);
-      //  Log.d("coinsLost",coinsLost);
 
-        if(won){
-        textViewCoins.setText(coinsWon);
-        //Color color = new Color();
-        convertView.setBackgroundColor(Color.GREEN);
 
-        //    Log.d("color",String.valueOf(convertView.getDrawingCacheBackgroundColor()));
+        if(won)
+        {
+            textViewCoins.setText(coinsWon);
+            textViewCoins.setBackgroundColor(Color.parseColor("#34e62f"));
         }
-        else {
+        else
+        {
             textViewCoins.setText(coinsLost);
-            Log.d("color",String.valueOf(convertView.getDrawingCacheBackgroundColor()));
-            convertView.setBackgroundColor(Color.RED);
-        } // textViewCoins.setText(coinsLost);
+            textViewCoins.setBackgroundColor(Color.parseColor("#dd2424"));
+        }
 
 
         return convertView;

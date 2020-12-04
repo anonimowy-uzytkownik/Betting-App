@@ -7,10 +7,15 @@
 
     <color name="colorAccent">#6C3A5C</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorTransparentWhite">#FFFFFFFF</color>
     <color name="colorAmaranthPurple">#AB2346</color>
     <color name="colorMandarin">#E57A44</color>
     <color name="colorGrayWhite">#e6e6ea</color>
     <color name="colorDarkPurple">#240115</color>
     <color name="colorRustyRed">#DE3C4B</color>
     <color name="colorSpanishGray">#A39A92</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorTransparent">#ff000000</color>
+    <color name="colorGray">#c2c1c0</color>
+    <color name="colorTransparentGray">#88c2c1c0</color>
 </resources>

@@ -185,8 +185,8 @@ public class ScoresFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "Clicked at positon = " + position, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Clicked at positon = " + position, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), "Clicked at positon = " + position, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), "Clicked at positon = " + position, Toast.LENGTH_SHORT).show();
 
 
 

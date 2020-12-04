@@ -86,6 +86,7 @@ public class LeaderboardFragment extends Fragment {
                     mDatabase.child(snapshot.getKey()).child("wins").setValue(snapshot.child("bets").child("wins").getValue());
                     mDatabase.child(snapshot.getKey()).child("loses").setValue(snapshot.child("bets").child("loses").getValue());
                     mDatabase.child(snapshot.getKey()).child("displayName").setValue(snapshot.child("username").getValue());
+                    mDatabase.child(snapshot.getKey()).child("avatar").setValue(snapshot.child("avatar").getValue());
 
                      Log.d("wonCoins",String.valueOf(snapshot.child("bets").child("wonCoins").getValue()));
 
@@ -115,6 +116,7 @@ public class LeaderboardFragment extends Fragment {
                     String wins=String.valueOf(snapshot.child("wins").getValue());
                     String loses=String.valueOf(snapshot.child("loses").getValue());
                     String coinsWon=String.valueOf(snapshot.child("wonCoins").getValue());
+                    String avatar=String.valueOf(snapshot.child("avatar").getValue());
 
                     String leaderboardRanking="0";
                     if(LeaderboardUserTopThreeList.size()<=2)
@@ -125,7 +127,7 @@ public class LeaderboardFragment extends Fragment {
                  //   snapshot.
                     //textViewFirstPlayer.setText(String.valueOf(textViewFirstPlayer.getText())+String.valueOf(snapshot.child("wonCoins").getValue()+" "));
 
-                    LeaderboardUser leaderboardUser = new LeaderboardUser(displayName,wins,loses,coinsWon,leaderboardRanking);
+                    LeaderboardUser leaderboardUser = new LeaderboardUser(displayName,wins,loses,coinsWon,leaderboardRanking,avatar);
                   //  int listSize =LeaderboardUserList.size();
                     if(LeaderboardUserTopThreeList.size()<=2)
                     LeaderboardUserTopThreeList.add(leaderboardUser);

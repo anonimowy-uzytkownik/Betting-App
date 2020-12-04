@@ -7,21 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.leaderboard.LeaderboardFragment">
 
-    <!--
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:id="@+id/recycleViewLeaderboardTopThree"
-            android:orientation="horizontal"
-            />
-
-     -->
-
-
-
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="600dp"
             android:id="@+id/listViewLeaderboardTopThree"
             android:clickable="false"
             android:descendantFocusability="blocksDescendants"
@@ -33,7 +21,7 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="200dp"
         android:id="@+id/listViewLeaderboard"
         android:clickable="false"
         android:descendantFocusability="blocksDescendants"

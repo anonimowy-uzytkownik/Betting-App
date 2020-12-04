@@ -32,6 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -91,17 +92,24 @@ public class MatchListAdapter extends ArrayAdapter<Match> {
         btnTeam2Odds.setText(win3odds);
         btnDrawOdds.setText(win2odds);
 
-        try
+        //Log.d("image2",image2);
+ /*       try
         {
             URL url = new URL(image1);
             Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
             imgTeam1.setImageBitmap(image);
 
-            URL url2 = new URL(image2);
-            image = BitmapFactory.decodeStream(url2.openConnection().getInputStream());
-            imgTeam2.setImageBitmap(image);
         }
         catch(IOException e) {}
+
+        try{
+            URL url2 = new URL(image2);
+            Bitmap image = BitmapFactory.decodeStream(url2.openConnection().getInputStream());
+            imgTeam2.setImageBitmap(image);}
+        catch (IOException e ){Log.d("imageError",e.getMessage());}
+*/
+        Picasso.get().load(image2).into(imgTeam2);
+        Picasso.get().load(image1).into(imgTeam1);
 
 
         btnTeam1Odds.setOnClickListener(new View.OnClickListener()

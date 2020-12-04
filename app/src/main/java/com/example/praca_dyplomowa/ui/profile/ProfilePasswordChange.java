@@ -48,7 +48,7 @@ public class ProfilePasswordChange extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int)(width*0.8),(int)(height * 0.3));
+        getWindow().setLayout((int)(width*0.85),(int)(height * 0.3));
 
         buttonPasswordChange.setOnClickListener(new View.OnClickListener() {
             @Override

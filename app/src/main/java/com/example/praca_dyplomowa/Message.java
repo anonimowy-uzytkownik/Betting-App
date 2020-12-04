@@ -5,6 +5,18 @@ public class Message {
     String displayName;
     String messageTime;
     String message;
+    String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public Message(String displayName, String messageTime, String message, String avatar) {
+        this.displayName = displayName;
+        this.messageTime = messageTime;
+        this.message = message;
+        this.avatar = avatar;
+    }
 
     public String getDisplayName() {
         return displayName;

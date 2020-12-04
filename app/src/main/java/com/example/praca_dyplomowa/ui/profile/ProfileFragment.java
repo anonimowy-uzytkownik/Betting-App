@@ -61,7 +61,7 @@ public class ProfileFragment extends Fragment {
     static  String obrazekURL=null;
 
 
-    TextView textViewDisplayName, textViewCoins;
+    TextView textViewDisplayName, textViewCoins,textViewAvatarHint;
     ImageView imageViewAvatar;
     Button buttonChangePassword,buttonChangeDisplayName;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -77,6 +77,7 @@ public class ProfileFragment extends Fragment {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         textViewDisplayName=(TextView) rootView.findViewById(R.id.textViewDisplayName);
         textViewCoins=(TextView) rootView.findViewById(R.id.textViewCoins);
+        textViewAvatarHint=(TextView) rootView.findViewById(R.id.textViewAvatarHint);
         buttonChangeDisplayName = (Button) rootView.findViewById(R.id.buttonDisplayNameChange);
         buttonChangePassword = (Button) rootView.findViewById(R.id.buttonPasswordChange);
         imageViewAvatar = (ImageView) rootView.findViewById(R.id.imageViewAvatar);
@@ -102,6 +103,12 @@ public class ProfileFragment extends Fragment {
                         }
 
                         catch(IOException e) {Log.e("image error",e.getMessage());}
+
+                    if(!(imageViewAvatar.getDrawable()==null))
+                        {
+                            textViewAvatarHint.setVisibility(View.INVISIBLE);
+                        }
+
                     }
                 }
             }

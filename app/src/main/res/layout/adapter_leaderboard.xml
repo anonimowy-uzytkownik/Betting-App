@@ -5,33 +5,46 @@
     android:background="@color/colorAccent">
 
     <TextView
-        android:id="@+id/textViewDisplayName"
-        android:layout_width="50dp"
+        android:id="@+id/textViewleaderboardRanking"
+        android:layout_width="55dp"
         android:layout_height="50dp"
-        android:layout_centerHorizontal="false"/>
+        android:textColor="#000000"
+        android:gravity="center"
+        />
+    <TextView
+        android:id="@+id/textViewDisplayName"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="false"
+        android:layout_toRightOf="@+id/textViewleaderboardRanking"
+        android:textColor="#000000"
+        android:gravity="center"/>
     <TextView
         android:id="@+id/textViewCoinsWon"
-        android:layout_width="50dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_toRightOf="@id/textViewDisplayName"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        android:gravity="center"/>
     <TextView
         android:id="@+id/textViewWins"
-        android:layout_width="50dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_toRightOf="@id/textViewCoinsWon"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        android:gravity="center"/>
     <TextView
         android:id="@+id/textViewLoses"
-        android:layout_width="50dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_toRightOf="@+id/textViewWins"
-        android:layout_centerHorizontal="true"/>
-    <TextView
-        android:id="@+id/textViewleaderboardRanking"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_toRightOf="@+id/textViewLoses"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        android:gravity="center"
+
+        />
+
 
 </RelativeLayout>

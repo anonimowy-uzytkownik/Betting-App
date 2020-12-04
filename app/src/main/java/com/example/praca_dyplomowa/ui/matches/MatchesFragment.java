@@ -41,6 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MatchesFragment extends Fragment  {
 
@@ -95,6 +96,8 @@ public class MatchesFragment extends Fragment  {
                                 Match match = new Match(Team1, Team2, Win1, Draw, Win2, Result, Image1, Image2, League, MatchId);
                                 matchList.add(match);
 
+                                if(snapshot.getChildrenCount()==matchList.size())
+                                    Collections.reverse(matchList);
                                 adapter.notifyDataSetChanged();
                             }
                         }
@@ -175,7 +178,6 @@ public class MatchesFragment extends Fragment  {
                             if(!Status.equals("done")) {
                                 Match match = new Match(Team1, Team2, Win1, Draw, Win2, Result, Image1, Image2, League, MatchId);
                                 matchList.add(match);
-
                                 adapter.notifyDataSetChanged();
                             }
                         }
@@ -194,7 +196,7 @@ public class MatchesFragment extends Fragment  {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "Clicked at positon = " + position, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), "Clicked at positon = " + position, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -235,7 +237,7 @@ public class MatchesFragment extends Fragment  {
                 ,"https://i.pinimg.com/originals/7c/c7/dc/7cc7dccd619de51abe6dcc78b63eaca8.png"));
 
 */
-
+/*
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Matches").child("NationsLeague");
 
 
@@ -263,7 +265,7 @@ public class MatchesFragment extends Fragment  {
                 ,"2","2","1","0","4","4",
                 "2","3"
         ));
-
+        */
 
         return rootView;
     }

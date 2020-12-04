@@ -5,20 +5,9 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity">
-<!--
-    <ImageView
-        android:id="@+id/imageViewAvatar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:contentDescription="@string/nav_header_desc"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@mipmap/ic_launcher_round"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:clickable="true"
-        />
--->
+    tools:context=".ProfileActivity"
+    >
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_marginTop="20dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -27,23 +16,43 @@
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         app:civ_border_width="2dp"
-        app:civ_border_color="#FF000000"/>
+        app:civ_border_color="#FF000000"
+
+        />
+
+    <TextView
+        android:id="@+id/textViewAvatarHint"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Click here to set your avatar"
+        android:textSize="18dp"
+        android:textColor="@color/colorBlack"
+        android:visibility="visible"
+        android:gravity="center"
+        android:background="@drawable/textview_oval"
+        />
 
     <TextView
         android:id="@+id/textViewDisplayName"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:layout_height="40dp"
         android:text="DisplayName"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:layout_gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/imageViewAvatar"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:textSize="30dp"
+        android:background="@drawable/textview_white"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        />
 
     <TextView
         android:text="100 coins"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:id="@+id/textViewCoins"
         android:layout_below="@id/textViewDisplayName"
@@ -51,26 +60,39 @@
         android:layout_marginTop="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:gravity="center"
+        android:textSize="18dp"
+        android:background="@drawable/textview_white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         />
 
     <Button
         android:text="Change your display name"
         android:id="@+id/buttonDisplayNameChange"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_below="@+id/buttonPasswordChange"
+        android:layout_below="@+id/textViewCoins"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_profile"
+        android:textColor="@color/colorGrayWhite"
+        android:padding="10dp"
+
+        />
 
 
     <Button
         android:text="Change your password"
        android:id="@+id/buttonPasswordChange"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_below="@+id/textViewCoins"
+        android:layout_below="@+id/buttonDisplayNameChange"
         android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_profile"
+        android:textColor="@color/colorGrayWhite"
+        android:padding="10dp"
+        />
 
 
 

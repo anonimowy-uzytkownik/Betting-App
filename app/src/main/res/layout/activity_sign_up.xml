@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorSpanishGray"
+    android:background="@color/colorGrayWhite"
     tools:context=".MainActivity">
 
     <EditText
@@ -63,7 +63,8 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="sign up!"
-        android:background="@drawable/sign_up_custom_button"/>
+        android:background="@drawable/sign_up_custom_button"
+        android:textSize="18dp"/>
 
     <ProgressBar
         android:id="@+id/progressBar_signing_up"

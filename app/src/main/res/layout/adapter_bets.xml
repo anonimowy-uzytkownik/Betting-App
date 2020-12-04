@@ -1,22 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
-    <TextView
-        android:id="@+id/textViewTeam1Name"
-        android:layout_width="100dp"
-        android:layout_height="100dp"/>
-    <TextView
-        android:id="@+id/textViewTeam2Name"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_toRightOf="@+id/textViewTeam1Name"/>
-    <TextView
-        android:id="@+id/textViewCoins"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_toRightOf="@id/textViewTeam2Name"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="1dp"
+        >
+
+        <TextView
+            android:id="@+id/textViewTeam1Name"
+            android:layout_width="80dp"
+            android:gravity="center"
+            android:layout_height="70dp"
+            android:button="@android:color/transparent"
+            android:text="Nations League"
+            android:textColor="@drawable/radio_flat_text_selector"
+            android:layout_weight="100"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:background="@drawable/radio_flat_selector"
+            android:baselineAligned="true"
+            />
+        <TextView
+            android:id="@+id/textViewTeam2Name"
+            android:layout_width="80dp"
+            android:gravity="center"
+            android:layout_height="70dp"
+            android:button="@android:color/transparent"
+            android:text="Nations League"
+            android:textColor="@drawable/radio_flat_text_selector"
+            android:layout_weight="100"
+            android:textSize="15dp"
+            android:background="@drawable/radio_flat_selector"
+            android:baselineAligned="false"
+            />
+        <TextView
+            android:id="@+id/textViewCoins"
+            android:layout_width="80dp"
+            android:layout_height="70dp"
+            android:background="@drawable/radio_flat_selector"
+            android:button="@android:color/transparent"
+            android:text="Nations League"
+            android:textColor="@drawable/radio_flat_text_selector"
+            android:layout_weight="100"
+            android:gravity="center"
+            android:textSize="18dp"
+            />
 
 
+    </LinearLayout>
 </RelativeLayout>

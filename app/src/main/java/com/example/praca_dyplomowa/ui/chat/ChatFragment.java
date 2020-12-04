@@ -61,7 +61,7 @@ public class ChatFragment extends Fragment {
         mListView.setAdapter(adapter);
 
 
-        Query reference = FirebaseDatabase.getInstance().getReference().child("Messages").limitToLast(20);
+        final Query reference = FirebaseDatabase.getInstance().getReference().child("Messages").limitToLast(20);
         messagesList.clear();
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -121,13 +121,13 @@ public class ChatFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String message = String.valueOf(newMessage.getText());
+                final String message = String.valueOf(newMessage.getText());
                 if(message.isEmpty()){return;}
 
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                String nickname =  user.getDisplayName();
+                final String nickname =  user.getDisplayName();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
-                String currentTime = dateFormat.format(Calendar.getInstance().getTime());
+                final String currentTime = dateFormat.format(Calendar.getInstance().getTime());
 
                 DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Messages");
                 usersRef.push().setValue(new Message(nickname,currentTime,message));

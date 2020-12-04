@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_height="match_parent"
-    android:weightSum="100"
-    >
+    android:weightSum="100">
 
 
 
@@ -15,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="60"
-        android:background="@color/cardview_shadow_start_color"
+
         android:layout_marginBottom="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
@@ -23,10 +22,12 @@
 
         >
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:id="@+id/linearLayoutDisplayNameMesssageTime"
+            android:layout_marginLeft="0dp"
             >
 
             <TextView
@@ -35,7 +36,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="50"
                 android:text="Nickname"
-                android:gravity="left"/>
+                android:gravity="left"
+                />
 
             <TextView
                 android:id="@+id/textViewMessageTime"
@@ -52,6 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/linearLayoutDisplayNameMesssageTime"
+            android:layout_toRightOf="@+id/imageViewAvatar"
+            android:layout_marginLeft="2dp"
             android:text="Message"/>
 
     </RelativeLayout>

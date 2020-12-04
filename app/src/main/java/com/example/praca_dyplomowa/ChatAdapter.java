@@ -45,6 +45,7 @@ public class ChatAdapter extends ArrayAdapter<Message> {
         String displayName = getItem(position).getDisplayName();
         String messageTime = getItem(position).getMessageTime();
         String message = getItem(position).getMessage();
+        //String avatar = getItem(position).getAvatar();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource,parent,false);
@@ -52,10 +53,15 @@ public class ChatAdapter extends ArrayAdapter<Message> {
         TextView tvDisplayName =(TextView) convertView.findViewById(R.id.textViewDisplayName);
         TextView tvMessageTime =(TextView) convertView.findViewById(R.id.textViewMessageTime);
         TextView tvMessage =(TextView) convertView.findViewById(R.id.textViewMessage);
+       // ImageView imageViewAvatar = convertView.findViewById(R.id.imageViewAvatar);
 
         tvDisplayName.setText(displayName);
         tvMessageTime.setText(messageTime);
         tvMessage.setText(message);
+
+
+
+
 
         return convertView;
     }
