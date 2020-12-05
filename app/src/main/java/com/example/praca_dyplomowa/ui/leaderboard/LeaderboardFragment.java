@@ -2,6 +2,8 @@ package com.example.praca_dyplomowa.ui.leaderboard;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,7 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,8 +45,12 @@ public class LeaderboardFragment extends Fragment {
  //   TextView textViewFirstPlayer;
  //   TextView textViewSecondPlayer;
 //    TextView textViewThirdPlayer;
+    TextView textViewDisplayNameTop3,textViewCoinsWonTop3,textViewWinRatioTop3;
+    TextView textViewDisplayNameTop2,textViewCoinsWonTop2,textViewWinRatioTop2;
+    TextView textViewDisplayNameTop1,textViewCoinsWonTop1,textViewWinRatioTop1;
     ListView listViewLeaderboard;
-    ListView listViewLeaderboardTopThree;
+//    ListView listViewLeaderboardTopThree;
+    ImageView imageViewAvatarTop1,imageViewAvatarTop2,imageViewAvatarTop3;
  //   RecyclerView recycleViewLeaderboardTopThree;
 
     public static LeaderboardFragment newInstance() {
@@ -60,15 +69,32 @@ public class LeaderboardFragment extends Fragment {
       //  textViewThirdPlayer=view.findViewById(R.id.textViewThirdPlayer);
         listViewLeaderboard=view.findViewById(R.id.listViewLeaderboard);
      //   recycleViewLeaderboardTopThree=view.findViewById(R.id.recycleViewLeaderboardTopThree);
-        listViewLeaderboardTopThree=view.findViewById(R.id.listViewLeaderboardTopThree);
+  //      listViewLeaderboardTopThree=view.findViewById(R.id.listViewLeaderboardTopThree);
+        imageViewAvatarTop1=view.findViewById(R.id.imageViewAvatarTop1);
+        imageViewAvatarTop2=view.findViewById(R.id.imageViewAvatarTop2);
+        imageViewAvatarTop3=view.findViewById(R.id.imageViewAvatarTop3);
+
+        textViewDisplayNameTop3 =view.findViewById(R.id.textViewDisplayNameTop3);
+        textViewCoinsWonTop3=view.findViewById(R.id.textViewCoinsWonTop3);
+        textViewWinRatioTop3=view.findViewById(R.id.textViewWinRatioTop3);
+
+        textViewDisplayNameTop2 =view.findViewById(R.id.textViewDisplayNameTop2);
+        textViewCoinsWonTop2=view.findViewById(R.id.textViewCoinsWonTop2);
+        textViewWinRatioTop2=view.findViewById(R.id.textViewWinRatioTop2);
+
+        textViewDisplayNameTop1 =view.findViewById(R.id.textViewDisplayNameTop1);
+        textViewCoinsWonTop1=view.findViewById(R.id.textViewCoinsWonTop1);
+        textViewWinRatioTop1=view.findViewById(R.id.textViewWinRatioTop1);
+
 
         final ArrayList<LeaderboardUser> LeaderboardUserTopThreeList = new ArrayList<>();
         final ArrayList<LeaderboardUser> LeaderboardUserList = new ArrayList<>();
-        final LeaderboardTopThreeAdapter adapterLeaderboardTopThree = new LeaderboardTopThreeAdapter(getContext(),R.layout.adapter_leaderboard_top_three,LeaderboardUserTopThreeList);
+ //       final LeaderboardTopThreeAdapter adapterLeaderboardTopThree = new LeaderboardTopThreeAdapter(getContext(),R.layout.adapter_leaderboard_top_three,LeaderboardUserTopThreeList);
         final LeaderboardTopThreeAdapter adapterLeaderboard = new LeaderboardTopThreeAdapter(getContext(),R.layout.adapter_leaderboard,LeaderboardUserList);
         //final ChatAdapter adapter = new ChatAdapter(getContext(),R.layout.adapter_chat_view_layout,messagesList);
         listViewLeaderboard.setAdapter(adapterLeaderboard);
-        listViewLeaderboardTopThree.setAdapter(adapterLeaderboardTopThree);
+//        listViewLeaderboardTopThree.setAdapter(adapterLeaderboardTopThree);
+
 
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Leaderboard");
         Query queryBestThreePlayers = FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("wonCoins");
@@ -117,38 +143,80 @@ public class LeaderboardFragment extends Fragment {
                     String loses=String.valueOf(snapshot.child("loses").getValue());
                     String coinsWon=String.valueOf(snapshot.child("wonCoins").getValue());
                     String avatar=String.valueOf(snapshot.child("avatar").getValue());
+                  //  String avatar = "";
+
 
                     String leaderboardRanking="0";
-                    if(LeaderboardUserTopThreeList.size()<=2)
-                    leaderboardRanking = String.valueOf(LeaderboardUserTopThreeList.size()+1);
-                    else
                     leaderboardRanking = String.valueOf(LeaderboardUserList.size()+4);
 
-                 //   snapshot.
-                    //textViewFirstPlayer.setText(String.valueOf(textViewFirstPlayer.getText())+String.valueOf(snapshot.child("wonCoins").getValue()+" "));
+                    LeaderboardUser leaderboardUser = new LeaderboardUser(displayName,wins,loses,coinsWon,leaderboardRanking);
 
-                    LeaderboardUser leaderboardUser = new LeaderboardUser(displayName,wins,loses,coinsWon,leaderboardRanking,avatar);
-                  //  int listSize =LeaderboardUserList.size();
-                    if(LeaderboardUserTopThreeList.size()<=2)
-                    LeaderboardUserTopThreeList.add(leaderboardUser);
-                    else
-                    LeaderboardUserList.add(leaderboardUser);
-                  //  LeaderboardUserList.add(leaderboardUser);
-                    //LeaderboardUserList.
-                    adapterLeaderboardTopThree.notifyDataSetChanged();
-                    adapterLeaderboard.notifyDataSetChanged();
+                    if(LeaderboardUserTopThreeList.size()==0)
+                    {
+                        try
+                        {
+                            URL url = new URL(avatar);
+                            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                            imageViewAvatarTop1.setImageBitmap(image);
 
-                    /*
-                    Collections.sort(bestScores);
-                    //ArrayList<Double> sortedBestScores = Collections.sort(bestScores);
-                    //textViewFirstPlayer.setText(String.valueOf(snapshot.getValue()));
-                    if(bestScores.size()>2){
-                    //textViewFirstPlayer.setText(String.valueOf(bestScores.get(0)));
+                        }
+                        catch(IOException e) {}
 
-                    textViewSecondPlayer.setText(String.valueOf(bestScores.get(1)));
-                    textViewThirdPlayer.setText(String.valueOf(bestScores.get(2)));
+                        textViewDisplayNameTop1.setText(displayName);
+                        textViewCoinsWonTop1.setText(coinsWon + " coins won");
+                        textViewWinRatioTop1.setText(wins + ":" + loses +" w/l");
                     }
-                    */
+                    else if(LeaderboardUserTopThreeList.size()==1)
+                    {
+                        try
+                        {
+                            URL url = new URL(avatar);
+                            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                            imageViewAvatarTop2.setImageBitmap(image);
+
+                        }
+                        catch(IOException e) {}
+
+                        textViewDisplayNameTop2.setText(displayName);
+                        textViewCoinsWonTop2.setText(coinsWon + " coins won");
+                        textViewWinRatioTop2.setText(wins + ":" + loses +" w/l");
+                    }
+                    else if(LeaderboardUserTopThreeList.size()==2)
+                    {
+                        try
+                        {
+                            URL url = new URL(avatar);
+                            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                            imageViewAvatarTop3.setImageBitmap(image);
+
+                        }
+                        catch(IOException e) {}
+
+                        textViewDisplayNameTop3.setText(displayName);
+                        textViewCoinsWonTop3.setText(coinsWon + " coins won");
+                        textViewWinRatioTop3.setText(wins + ":" + loses +" w/l");
+                    }
+
+
+
+                        if(LeaderboardUserTopThreeList.size()<3)
+                        {
+                            LeaderboardUserTopThreeList.add(leaderboardUser);
+                        }
+                        else
+                            {
+                                LeaderboardUserList.add(leaderboardUser);
+                                adapterLeaderboard.notifyDataSetChanged();
+                            }
+
+
+ /*
+                    LeaderboardUserList.add(leaderboardUser);
+                    adapterLeaderboardTopThree.notifyDataSetChanged();
+                 //
+                     */
+
+
                 }
 
             }
@@ -159,6 +227,7 @@ public class LeaderboardFragment extends Fragment {
 
             }
         });
+
 
         return view;
     }

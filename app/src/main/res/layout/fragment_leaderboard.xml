@@ -7,6 +7,194 @@
     android:layout_height="match_parent"
     tools:context=".ui.leaderboard.LeaderboardFragment">
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:orientation="horizontal"
+    android:id="@+id/linearLayoutTop3">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="30">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:text="1."
+                android:textSize="20dp"
+                android:textColor="@color/colorBlack"
+                />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageViewAvatarTop1"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewDisplayNameTop1"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:id="@+id/textViewCoinsWonTop1"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:id="@+id/textViewWinRatioTop1"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/colorBlack"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="30">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:text="2."
+                android:textSize="20dp"
+                android:textColor="@color/colorBlack"
+                />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageViewAvatarTop2"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewDisplayNameTop2"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:id="@+id/textViewCoinsWonTop2"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:id="@+id/textViewWinRatioTop2"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/colorBlack"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="30">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:text="3."
+                android:textSize="20dp"
+                android:textColor="@color/colorBlack"
+                />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageViewAvatarTop3"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewDisplayNameTop3"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:id="@+id/textViewCoinsWonTop3"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:id="@+id/textViewWinRatioTop3"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/colorBlack"/>
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</LinearLayout>
+
+
+
+<!--
         <ListView
             android:layout_width="match_parent"
             android:layout_height="600dp"
@@ -16,8 +204,8 @@
             android:layout_weight="80"
             android:layout_gravity="center"
             android:transcriptMode="alwaysScroll"
-
             />
+-->
 
     <ListView
         android:layout_width="match_parent"
@@ -28,7 +216,9 @@
         android:layout_weight="80"
         android:layout_gravity="center"
         android:transcriptMode="alwaysScroll"
-        android:layout_below="@+id/listViewLeaderboardTopThree"
+        android:layout_below="@+id/linearLayoutTop3"
+        android:background="@color/colorPrimaryDark"
+
         />
 
 
