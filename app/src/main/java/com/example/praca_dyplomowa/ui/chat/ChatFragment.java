@@ -12,15 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.praca_dyplomowa.ChatAdapter;
-import com.example.praca_dyplomowa.Match;
-import com.example.praca_dyplomowa.MatchListAdapter;
 import com.example.praca_dyplomowa.Message;
 import com.example.praca_dyplomowa.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +32,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class ChatFragment extends Fragment {
 
@@ -53,7 +49,7 @@ public class ChatFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_chat, container, false);
         ListView mListView = (ListView)rootView.findViewById(R.id.listViewChat);
-        Button btnSendMessage = (Button)rootView.findViewById(R.id.buttontSendMessage);
+        ImageButton btnSendMessage = (ImageButton)rootView.findViewById(R.id.buttontSendMessage);
         final EditText newMessage =(EditText)rootView.findViewById(R.id.editTextNewMessage);
 
         final ArrayList<Message> messagesList = new ArrayList<>();
@@ -69,7 +65,6 @@ public class ChatFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
-
                     String displayName = String.valueOf(snapshot.child("displayName").getValue());
                     String messageTime = String.valueOf(snapshot.child("messageTime").getValue());
                     String messageText = String.valueOf(snapshot.child("message").getValue());
@@ -78,7 +73,6 @@ public class ChatFragment extends Fragment {
 
                     messagesList.add(message);
                     adapter.notifyDataSetChanged();
-
                 }
 
             }
@@ -133,6 +127,7 @@ public class ChatFragment extends Fragment {
                 usersRef.push().setValue(new Message(nickname,currentTime,message));
 
                 newMessage.setText("");
+                v.startAnimation(AnimationUtils.loadAnimation(getContext(),R.anim.blink));
             }
         });
 

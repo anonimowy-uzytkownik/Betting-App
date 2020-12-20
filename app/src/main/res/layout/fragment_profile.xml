@@ -12,8 +12,8 @@
         android:layout_marginTop="20dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageViewAvatar"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_centerHorizontal="true"
         app:civ_border_width="2dp"
         app:civ_border_color="#FF000000"
@@ -22,8 +22,8 @@
 
     <TextView
         android:id="@+id/textViewAvatarHint"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Click here to set your avatar"
@@ -75,7 +75,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/button_profile"
-        android:textColor="@color/colorGrayWhite"
+        android:textColor="@color/colorBlack"
         android:padding="10dp"
 
         />
@@ -90,7 +90,7 @@
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_profile"
-        android:textColor="@color/colorGrayWhite"
+        android:textColor="@color/colorBlack"
         android:padding="10dp"
         />
 

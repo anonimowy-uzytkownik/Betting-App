@@ -9,14 +9,15 @@
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:gravity="center"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="25dp"
+        />
     <ImageView
         android:id="@+id/imageViewTeam2"
         android:layout_toRightOf="@+id/textViewResult"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:gravity="center"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="25dp"/>
     <TextView
         android:id="@+id/textViewResult"
         android:layout_width="200dp"
@@ -24,7 +25,8 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:layout_marginTop="20dp"
-        android:textSize="45dp"/>
+        android:textSize="45dp"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewTeam1Name"
         android:layout_toLeftOf="@+id/textViewResult"
@@ -33,6 +35,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="5dp"
         android:gravity="center"
+        android:textColor="@color/colorBlack"
         />
     <TextView
         android:id="@+id/textViewTeam2Name"
@@ -41,31 +44,37 @@
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_marginTop="5dp"
-
+        android:textColor="@color/colorBlack"
         android:gravity="center"/>
 
     <TextView
+        android:layout_marginTop="15dp"
         android:id="@+id/textViewTeam1Shots"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewResult"
         android:layout_toLeftOf="@id/textViewShots"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
+        android:layout_marginTop="15dp"
         android:id="@+id/textViewShots"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:text="Shots"
         android:layout_below="@id/textViewResult"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
+        android:layout_marginTop="15dp"
         android:id="@+id/textViewTeam2Shots"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewResult"
         android:layout_toRightOf="@id/textViewShots"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
 
     <TextView
         android:id="@+id/textViewTeam1ShotsOnTarget"
@@ -73,7 +82,8 @@
         android:layout_height="50dp"
         android:layout_below="@id/textViewShots"
         android:layout_toLeftOf="@id/textViewShotsOnTarget"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewShotsOnTarget"
         android:layout_width="100dp"
@@ -81,14 +91,16 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/textViewShots"
         android:text="Shots on target"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewTeam2ShotsOnTarget"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewShots"
         android:layout_toRightOf="@id/textViewShotsOnTarget"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
 
         <TextView
         android:id="@+id/textViewTeam1Possession"
@@ -96,7 +108,8 @@
         android:layout_height="50dp"
         android:layout_below="@id/textViewShotsOnTarget"
         android:layout_toLeftOf="@id/textViewPossession"
-            android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewPossession"
         android:layout_width="100dp"
@@ -104,14 +117,16 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/textViewShotsOnTarget"
         android:text="Possession"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewTeam2Possession"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewShotsOnTarget"
         android:layout_toRightOf="@id/textViewPossession"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
 
     <TextView
         android:id="@+id/textViewTeam1Passes"
@@ -119,7 +134,8 @@
         android:layout_height="50dp"
         android:layout_below="@id/textViewPossession"
         android:layout_toLeftOf="@id/textViewPasses"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewPasses"
         android:layout_width="100dp"
@@ -127,14 +143,16 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/textViewPossession"
         android:text="Passes"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewTeam2Passes"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewPossession"
         android:layout_toRightOf="@id/textViewPasses"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
 
         <TextView
         android:id="@+id/textViewTeam1PassAccuracy"
@@ -142,7 +160,8 @@
         android:layout_height="50dp"
         android:layout_below="@id/textViewPasses"
         android:layout_toLeftOf="@id/textViewPossession"
-            android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewPassAccuracy"
         android:layout_width="100dp"
@@ -150,14 +169,16 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/textViewPasses"
         android:text="Pass accuracy"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewTeam2PassAccuracy"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewPasses"
         android:layout_toRightOf="@id/textViewPasses"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
 
         <TextView
         android:id="@+id/textViewTeam1Fouls"
@@ -165,7 +186,8 @@
         android:layout_height="50dp"
         android:layout_below="@id/textViewPassAccuracy"
         android:layout_toLeftOf="@id/textViewPossession"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewFouls"
         android:layout_width="100dp"
@@ -173,14 +195,16 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/textViewPassAccuracy"
         android:text="Fouls"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewTeam2Fouls"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewPassAccuracy"
         android:layout_toRightOf="@id/textViewPossession"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
 
         <TextView
         android:id="@+id/textViewTeam1YellowCards"
@@ -188,7 +212,8 @@
         android:layout_height="50dp"
         android:layout_below="@id/textViewFouls"
         android:layout_toLeftOf="@id/textViewPossession"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewYellowCards"
         android:layout_width="100dp"
@@ -196,14 +221,16 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/textViewFouls"
         android:text="Yellow cards"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewTeam2YellowCards"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewFouls"
         android:layout_toRightOf="@id/textViewPossession"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
 
     <TextView
         android:id="@+id/textViewTeam1RedCards"
@@ -211,7 +238,8 @@
         android:layout_height="50dp"
         android:layout_below="@id/textViewYellowCards"
         android:layout_toLeftOf="@id/textViewPossession"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
 
     <TextView
         android:id="@+id/textViewRedCards"
@@ -220,14 +248,16 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/textViewYellowCards"
         android:text="Red cards"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewTeam2RedCards"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewYellowCards"
         android:layout_toRightOf="@id/textViewPossession"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
 
         <TextView
         android:id="@+id/textViewTeam1Offsides"
@@ -235,7 +265,8 @@
         android:layout_height="50dp"
         android:layout_below="@id/textViewRedCards"
         android:layout_toLeftOf="@id/textViewPossession"
-            android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewOffsides"
         android:layout_width="100dp"
@@ -243,14 +274,16 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/textViewRedCards"
         android:text="Offsides"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewTeam2Offsides"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewRedCards"
         android:layout_toRightOf="@id/textViewPossession"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
 
         <TextView
         android:id="@+id/textViewTeam1Corners"
@@ -258,7 +291,8 @@
         android:layout_height="50dp"
         android:layout_below="@id/textViewOffsides"
         android:layout_toLeftOf="@id/textViewPossession"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewCorners"
         android:layout_width="100dp"
@@ -266,14 +300,16 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/textViewOffsides"
         android:text="Corners"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:id="@+id/textViewTeam2Corners"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/textViewOffsides"
         android:layout_toRightOf="@id/textViewPossession"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@color/colorBlack"/>
 
 
 </RelativeLayout>

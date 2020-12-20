@@ -2,6 +2,8 @@ package com.example.praca_dyplomowa.ui.profile;
 
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -24,6 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 public class ProfilePasswordChange extends Activity {
 
@@ -41,6 +44,7 @@ public class ProfilePasswordChange extends Activity {
         buttonPasswordChange=(Button)findViewById(R.id.buttonPasswordChange);
         editTextNewPassword= findViewById(R.id.editTextNewPassword);
         editTextNewPasswordRepeated= findViewById(R.id.editTextNewPasswordRepeated);
+        PushDownAnim.setPushDownAnimTo( buttonPasswordChange);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -49,6 +53,7 @@ public class ProfilePasswordChange extends Activity {
         int height = dm.heightPixels;
 
         getWindow().setLayout((int)(width*0.85),(int)(height * 0.3));
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         buttonPasswordChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,9 +80,11 @@ public class ProfilePasswordChange extends Activity {
 
                 user.updatePassword(newPasswordTyped);
 
-
+                finish();
             }
         });
+
+
     }
 }
 

@@ -32,6 +32,8 @@ import com.example.praca_dyplomowa.MatchExtended;
 import com.example.praca_dyplomowa.MatchListAdapter;
 import com.example.praca_dyplomowa.Message;
 import com.example.praca_dyplomowa.R;
+import com.example.praca_dyplomowa.ui.bets.BetsFragment;
+import com.example.praca_dyplomowa.ui.scores.ScoresFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -66,6 +68,32 @@ public class MatchesFragment extends Fragment  {
         final ArrayList<Match> matchList = new ArrayList<>();
         final MatchListAdapter adapter = new MatchListAdapter(getContext(),R.layout.adapter_view_layout,matchList);
         mListView.setAdapter(adapter);
+
+
+    /*
+        try{
+            if(getActivity().getIntent().getAction()=="OPEN_MY_BETS")
+            {
+                Fragment fragment = new BetsFragment();
+
+
+        //        getActivity().getSupportFragmentManager().beginTransaction()
+          //              .replace(R.id.relativeLayoutMatches, fragment).remove(MatchesFragment.this).commit();
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.relativeLayoutMatches, fragment, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+
+               // setTargetFragment(this,fragment);
+
+//R.id.relativeLayoutMatches
+            }
+        } catch (Error error){}
+
+
+*/
+
 
 
         radioButtonChampions.setOnClickListener(new View.OnClickListener() {
@@ -216,27 +244,27 @@ public class MatchesFragment extends Fragment  {
 
 
 /*
-        String testimage="https://upload.wikimedia.org/wikipedia/commons/d/d5/Japan_small_icon.png";
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Matches").child("NationsLeague");
+        //String testimage="https://upload.wikimedia.org/wikipedia/commons/d/d5/Japan_small_icon.png";
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Matches").child("EuropaLeague");
 
 
-        usersRef.push().setValue(new Match("Serbia","Russia","2.90","3.45","2.46","5:0"
-                ,"https://lh3.googleusercontent.com/proxy/zKEAu-uC0HImqiBWHT-LESdsFJeoVParsgFCaY0BjaPow0p8_tbgKV4kN9nV6cct4JF8vFluUtyq7cyKGt4QdAkxh5b_GUZSHATfvy6JgvR_2_StnWkM7jc6MqHZuEp5Ugr1_7tvtNhoeBX4926jp2nzhD2h42sjsKB0lOAVo9t2svfJoVLbNtNp"
-                ,"https://www.shareicon.net/data/2015/07/23/73664_flag_256x256.png"));
+        usersRef.push().setValue(new Match("Leverkusen","Slavia Praha","1.65","4.00","4.55","0:0"
+                ,"https://firebasestorage.googleapis.com/v0/b/projekty-dyplomowy.appspot.com/o/flags%2Fleverkusen.png?alt=media&token=f47f800a-ae63-4399-9793-b4019ff196f2"
+                ,"https://firebasestorage.googleapis.com/v0/b/projekty-dyplomowy.appspot.com/o/flags%2Fslavia.png?alt=media&token=aa6a3681-92c7-4722-876f-ba824c90c0bc"));
 
-        usersRef.push().setValue(new Match("Hungary","Turkey","3.61","3.51","2.07","2:0"
-                ,"https://2.bp.blogspot.com/-oAY4T76_BiU/UL0u507y0vI/AAAAAAAB4xA/_q_xwY2VmJo/s1600/Hungary_Flag2.png"
-                ,"https://njq-ip.com/wp-content/uploads/2014/256/Turkey-Flag.png"));
+        usersRef.push().setValue(new Match("CSKA Sofia","AS Roma","4.45","3.92","1.68","0:0"
+                ,"https://firebasestorage.googleapis.com/v0/b/projekty-dyplomowy.appspot.com/o/flags%2Fcska.png?alt=media&token=f274a922-eb36-4f77-9d57-7423c8bfe576"
+                ,"https://firebasestorage.googleapis.com/v0/b/projekty-dyplomowy.appspot.com/o/flags%2Froma.png?alt=media&token=065420de-4420-4a77-9b10-364ff2da5ee5"));
 
-        usersRef.push().setValue(new Match("England","Iceland","1.15","8.14","17.98","4:0"
-                ,"https://lh3.googleusercontent.com/proxy/QnSDYlTMm50efsXQJvn-YlCLT4G9DwMTNJvB71dmsuwTliPOuOUl_bg6dhpC1dotfTddVGOHa6qFUDJnP59mysnIh2Rkejqv0_HnuJavAw-J4iTPiX0ve035MgmLrX93FMS2JC9ZtzVSkHVy9wJMAzGabc1tM0FgAgwqs8Dnr2y9"
-                ,"https://lh3.googleusercontent.com/proxy/5K_MLonVezq_vycWJT5lDzGGmmQQTr2qv6AH3q-wLIDbLfoCdYE82UM4c8GeprONWKxJzapYT3toOcpoTzeekmOvA-bIkhSP_frm1KNHkNbG7g"));
+        usersRef.push().setValue(new Match("Standard Liege","Benfica","4.70","3.90","1.68","0:0"
+                ,"https://firebasestorage.googleapis.com/v0/b/projekty-dyplomowy.appspot.com/o/flags%2Fliege.png?alt=media&token=6f65541f-d1a2-4641-b5a6-4faea134119d"
+                ,"https://firebasestorage.googleapis.com/v0/b/projekty-dyplomowy.appspot.com/o/flags%2Fbenfica.png?alt=media&token=ccf1d9e5-75e2-4498-a69d-660f28efc7c4"));
 
-        usersRef.push().setValue(new Match("Kosovo","Moldova","1.47","4.03","8.04","1:0"
-                ,"https://lh3.googleusercontent.com/proxy/kWV6HQpMJjXHFYoyAcjh1JgY91i7n5bonwKNGVg04rJADoG7upVDXE_cuIKl4JRLSoseYaYdyhXWC-dh_4DaoyOupVhAlodsHZq88Mkn2QJotHo"
-                ,"https://i.pinimg.com/originals/7c/c7/dc/7cc7dccd619de51abe6dcc78b63eaca8.png"));
-
+        usersRef.push().setValue(new Match("Lech Poznan","Rangers","4.80","4.00","1.65","0:0"
+                ,"https://firebasestorage.googleapis.com/v0/b/projekty-dyplomowy.appspot.com/o/flags%2Flech.png?alt=media&token=d52ed8b5-271e-4dab-9354-dcca5abce99a"
+                ,"https://firebasestorage.googleapis.com/v0/b/projekty-dyplomowy.appspot.com/o/flags%2Frangers.png?alt=media&token=14c43163-c8af-488e-b49a-a2e9578eb91f"));
 */
+
 /*
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Matches").child("NationsLeague");
 

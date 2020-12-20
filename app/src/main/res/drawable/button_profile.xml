@@ -9,13 +9,15 @@
     <gradient
         android:angle="45"
         android:centerX="35%"
-        android:centerColor="#ff004643"
-        android:startColor="#ff004643"
-        android:endColor="#ff004643"
+        android:centerColor="@color/colorGray"
+        android:startColor="@color/colorGray"
+        android:endColor="@color/colorGray"
         android:type="linear"
         />
+
     <stroke
         android:width="3dp"
-        android:color="#87c2c1c0"
+        android:color="@color/colorPrimaryDark"
         />
+
 </shape>

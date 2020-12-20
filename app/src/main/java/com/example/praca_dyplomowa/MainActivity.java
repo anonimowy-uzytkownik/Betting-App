@@ -1,6 +1,7 @@
 package com.example.praca_dyplomowa;
 
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.example.praca_dyplomowa.ui.bets.BetsFragment;
 import com.example.praca_dyplomowa.ui.matches.MatchesFragment;
 import com.example.praca_dyplomowa.ui.notifications.NotificationService;
+import com.example.praca_dyplomowa.ui.scores.ScoresFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -40,6 +42,7 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -64,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
+
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -79,13 +86,16 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        View headerView = navigationView.getHeaderView(0);
 
+        View headerView = navigationView.getHeaderView(0);
         final User currentUser = new User();
         final TextView textViewDisplayNameNav = headerView.findViewById(R.id.textViewDisplayNameNav);
         final TextView textViewCoinsNav = headerView.findViewById(R.id.textViewCoinsNav);
         final ImageView imageViewAvatarNav = headerView.findViewById(R.id.imageViewAvatarNav);
         textViewDisplayNameNav.setText(currentUser.username);
+
+
+
 
         Query reference = FirebaseDatabase.getInstance().getReference().child("Users");
         reference.addValueEventListener(new ValueEventListener() {
@@ -499,6 +509,7 @@ public class MainActivity extends AppCompatActivity {
                 {
 
                     Intent activityBets = new Intent(getApplicationContext(), MainActivity.class);
+                    activityBets.setAction("OPEN_MY_BETS");
                     TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
                     stackBuilder.addParentStack(MainActivity.class);
                     stackBuilder.addNextIntent(activityBets);
@@ -506,7 +517,7 @@ public class MainActivity extends AppCompatActivity {
                             stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     final NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
-                            .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                            .setSmallIcon(R.drawable.ic_baseline_email_24)
                             .setContentText("Game between "+ snapshot.child("team1Name").getValue().toString()+" and "+snapshot.child("team2Name").getValue().toString()+" just ended!")
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                             .setContentIntent(resultPendingIntent)
@@ -579,7 +590,7 @@ public class MainActivity extends AppCompatActivity {
                             stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     final NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
-                            .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                            .setSmallIcon(R.drawable.ic_baseline_email_24)
                             .setContentText("Game between "+ snapshot.child("team1Name").getValue().toString()+" and "+snapshot.child("team2Name").getValue().toString()+" just ended!")
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                             .setContentIntent(resultPendingIntent)
@@ -661,7 +672,7 @@ public class MainActivity extends AppCompatActivity {
                             stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     final NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
-                            .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                            .setSmallIcon(R.drawable.ic_baseline_email_24)
                             .setContentText("Game between "+ snapshot.child("team1Name").getValue().toString()+" and "+snapshot.child("team2Name").getValue().toString()+" just ended!")
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                             .setContentIntent(resultPendingIntent)

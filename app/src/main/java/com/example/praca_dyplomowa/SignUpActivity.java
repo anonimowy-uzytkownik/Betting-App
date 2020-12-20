@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -53,6 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.quake));
                 final String email = emailId.getText().toString().trim();
                 String pwd = password.getText().toString().trim();
                 final String dspName = displayName.getText().toString().trim();
@@ -94,23 +96,16 @@ public class SignUpActivity extends AppCompatActivity {
                                 }
                             });
 
-                           // Toast.makeText(SignUpActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
-                           // Toast.makeText(SignUpActivity.this, user.getDisplayName(), Toast.LENGTH_SHORT).show();
-
-
-
                             DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
 
                             String username = dspName;
                             String coins = "100";
                             usersRef.child(String.valueOf(email.hashCode())).setValue(new User(username,email,coins));
-                            Log.d("account","user should've been created");
-                            //usersRef.child(nazwa.getText().toString()).setValue(new Przepis());
-
 
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(SignUpActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     }
                 });

@@ -63,7 +63,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="sign up!"
-        android:background="@drawable/sign_up_custom_button"
+        android:background="@drawable/button_profile"
         android:textSize="18dp"/>
 
     <ProgressBar

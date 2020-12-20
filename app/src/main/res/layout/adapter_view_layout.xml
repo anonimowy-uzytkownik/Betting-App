@@ -117,6 +117,7 @@
             android:layout_toLeftOf="@+id/textViewResult"
             android:focusable="false"
             android:layout_marginBottom="3dp"
+
              />
         <Button
             android:layout_width="wrap_content"

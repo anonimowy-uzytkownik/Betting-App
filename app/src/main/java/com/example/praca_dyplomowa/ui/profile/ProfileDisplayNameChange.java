@@ -2,6 +2,8 @@ package com.example.praca_dyplomowa.ui.profile;
 
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -24,6 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 public class ProfileDisplayNameChange extends Activity {
 
@@ -38,6 +41,7 @@ public class ProfileDisplayNameChange extends Activity {
 
         buttonPasswordChange=(Button)findViewById(R.id.buttonPasswordChange);
         editTextNewDisplayName= findViewById(R.id.editTextNewDisplayName);
+        PushDownAnim.setPushDownAnimTo( buttonPasswordChange);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -45,7 +49,8 @@ public class ProfileDisplayNameChange extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int)(width*0.85),(int)(height * 0.3));
+        getWindow().setLayout((int)(width*0.85),(int)(height * 0.22));
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         buttonPasswordChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +61,7 @@ public class ProfileDisplayNameChange extends Activity {
 
                 if (TextUtils.isEmpty(dspName)) {
                     editTextNewDisplayName.setError("Display name is required");
+                    //editTextNewDisplayName.setBackgroundResource(R.drawable.error_editext);
                     return;
                 }
 
@@ -72,9 +78,11 @@ public class ProfileDisplayNameChange extends Activity {
                 mDatabase.child("username").setValue(dspName);
 
                 Log.d("NotNullButton","true");
-
+                finish();
             }
         });
+
+
     }
 }
 

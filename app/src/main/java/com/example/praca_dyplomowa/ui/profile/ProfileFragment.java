@@ -39,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.io.IOException;
 import java.net.URL;
@@ -81,6 +82,10 @@ public class ProfileFragment extends Fragment {
         buttonChangeDisplayName = (Button) rootView.findViewById(R.id.buttonDisplayNameChange);
         buttonChangePassword = (Button) rootView.findViewById(R.id.buttonPasswordChange);
         imageViewAvatar = (ImageView) rootView.findViewById(R.id.imageViewAvatar);
+        PushDownAnim.setPushDownAnimTo( buttonChangeDisplayName);
+        PushDownAnim.setPushDownAnimTo( imageViewAvatar);
+        PushDownAnim.setPushDownAnimTo( buttonChangePassword);
+
 
         Query reference = FirebaseDatabase.getInstance().getReference().child("Users");
 
@@ -118,6 +123,7 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+
 
         buttonChangeDisplayName.setOnClickListener(new View.OnClickListener() {
             @Override

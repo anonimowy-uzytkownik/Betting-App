@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@drawable/layout_corners"
+>
 
     <EditText
         android:id="@+id/editTextNewDisplayName"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="35dp"
         android:gravity="center"
-        android:hint=""
+        android:hint="enter new display name"
         android:inputType="text"
-        android:textColor="#000000"
-        android:background="@drawable/edit_text_border"/>
+        android:textColor="@color/colorBlack"
+        android:background="@drawable/editbox_white_profile"
+        />
 
     <Button
         android:id="@+id/buttonPasswordChange"
@@ -27,6 +29,7 @@
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:background="@drawable/button_profile"
         />
 
 </RelativeLayout>

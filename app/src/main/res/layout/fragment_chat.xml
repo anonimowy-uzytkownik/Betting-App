@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.chat.ChatFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorGrayWhite">
 
 
     <ListView
@@ -22,7 +23,8 @@
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp">
 
     <EditText
         android:layout_width="match_parent"
@@ -31,16 +33,25 @@
         android:layout_below="@+id/listViewChat"
         android:inputType="textLongMessage"
         android:layout_weight="20"
-        android:background="@color/cardview_dark_background"
+        android:background="@drawable/textview_white"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:paddingLeft="10dp"
         />
-    <Button
+    <ImageButton
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
         android:layout_below="@+id/listViewChat"
         android:layout_toRightOf="@id/editTextNewMessage"
         android:layout_weight="80"
         android:layout_gravity="right"
+        android:textColor="@color/colorBlack"
+        android:background="@drawable/gray_border"
         android:id="@+id/buttontSendMessage"
+        android:src="@drawable/ic_baseline_send_24"
+        android:gravity="center"
+        android:layout_marginRight="5dp"
+
         />
 
 </LinearLayout>

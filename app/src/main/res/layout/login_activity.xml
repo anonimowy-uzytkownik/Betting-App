@@ -47,7 +47,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="Sign in"
-        android:background="@drawable/sign_in_custom_button"
+        android:background="@drawable/button_profile"
         android:textSize="18dp"/>
 
 
@@ -59,8 +59,8 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Sign up"
-        android:background="@drawable/sign_up_custom_button"
+        android:text="Don't have an account? click here to sign up"
+        android:background="@drawable/empty_button"
         android:textSize="18dp"/>
 
     <ProgressBar

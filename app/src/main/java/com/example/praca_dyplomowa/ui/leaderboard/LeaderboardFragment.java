@@ -147,7 +147,7 @@ public class LeaderboardFragment extends Fragment {
 
 
                     String leaderboardRanking="0";
-                    leaderboardRanking = String.valueOf(LeaderboardUserList.size()+4);
+                    leaderboardRanking = String.valueOf(LeaderboardUserList.size()+4)+".";
 
                     LeaderboardUser leaderboardUser = new LeaderboardUser(displayName,wins,loses,coinsWon,leaderboardRanking);
 

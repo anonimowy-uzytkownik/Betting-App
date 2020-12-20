@@ -118,10 +118,6 @@ public class ScoresExtended extends AppCompatActivity {
         });
 
 
-
-
-        Toast.makeText(getApplicationContext(), league, Toast.LENGTH_SHORT).show();
-
     }
 
 

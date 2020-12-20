@@ -1,17 +1,24 @@
 package com.example.praca_dyplomowa.ui.matches;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.example.praca_dyplomowa.Bet;
 import com.example.praca_dyplomowa.BetFinished;
@@ -23,12 +30,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 public class MatchesPlaceBet extends Activity {
 
     EditText editTextBettedCoins;
     Button buttonPlaceBet;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +57,7 @@ public class MatchesPlaceBet extends Activity {
 
         buttonPlaceBet=(Button)findViewById(R.id.buttonPlaceBet);
         editTextBettedCoins= findViewById(R.id.editTextBettedCoins);
+        PushDownAnim.setPushDownAnimTo( buttonPlaceBet);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -56,8 +66,7 @@ public class MatchesPlaceBet extends Activity {
         int height = dm.heightPixels;
 
         getWindow().setLayout((int)(width*0.8),(int)(height * 0.25));
-
-
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //getWindow().set
 
         buttonPlaceBet.setOnClickListener(new View.OnClickListener() {
@@ -102,10 +111,26 @@ public class MatchesPlaceBet extends Activity {
                     mDatabaseBets.push().setValue(new Bet(email,"Draw",coinsToWin));
                 }
                 mDatabaseBettingHistory.push().setValue(new BetFinished(String.valueOf(team1Name),String.valueOf(team2Name),String.valueOf(result),String.valueOf(coinsToBet)));
+
                 Toast.makeText(getApplicationContext(),"bet placed",Toast.LENGTH_SHORT).show();
+                //ShowToast();
                 finish();
             }
         });
+    }
+
+
+    public void ShowToast()
+    {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast,(ViewGroup)findViewById(R.id.linearLayoutCustomToast));
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+
+        toast.show();
     }
 }
 
