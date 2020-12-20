@@ -1,7 +1,0 @@
-package com.example.praca_dyplomowa.ui.settings;
-
-import androidx.lifecycle.ViewModel;
-
-public class SettingsViewModel extends ViewModel {
-    // TODO: Implement the ViewModel
-}

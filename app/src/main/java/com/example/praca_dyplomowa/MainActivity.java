@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.example.praca_dyplomowa.ui.bets.BetsFragment;
 import com.example.praca_dyplomowa.ui.matches.MatchesFragment;
-import com.example.praca_dyplomowa.ui.notifications.NotificationService;
 import com.example.praca_dyplomowa.ui.scores.ScoresFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
