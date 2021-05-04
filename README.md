@@ -1,4 +1,5 @@
-![alt text](https://i.imgur.com/1IrpV77.png=250x250)
+![alt text](https://i.imgur.com/1IrpV77.png)
+<img src="https://i.imgur.com/1IrpV77.png" alt="alt text" width="250" height="250">
 ![alt text](https://i.imgur.com/AA44MoQ.png)
 ![alt text](https://i.imgur.com/ZShbdKy.png)
 ![alt text](https://i.imgur.com/Ueh8Mba.png)
